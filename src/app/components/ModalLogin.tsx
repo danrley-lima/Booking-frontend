@@ -1,44 +1,50 @@
 import React from "react";
-import { MdEmail } from "react-icons/md";
-import { BsGoogle } from "react-icons/bs";
+import { MdOutlineEmail } from "react-icons/md";
+import { FcGoogle } from "react-icons/fc";
 import { IoClose } from "react-icons/io5";
 
 function ModalLogin(){
     return(
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50 backdrop-blur-md">
-            <div className="bg-white p-8 rounded-md shadow-md h-2/3 w-1/2">
-                <button className="right-0 top-0">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-md text-preto bg-white">
+            <div className="bg-cinza p-8 rounded-md shadow-md h-5/6 w-4/12 relative">
+                <button className="absolute right-3 top-3">
                     <IoClose/>
                 </button>
-                <p className="text-base">
-                    Entre para ver o melhor do Booking da Shopee
+                <p className="text-2xl text-align pt-16 px-10 font-bold inline-block">
+                    Entre para ver o melhor do Booking da Shopee.
                 </p>
-                <button className="relative border-2 rounded-3xl w-full h-15 mb-3">
+                <div className="pt-12">
+                    <button className="text-base relative border-2 rounded-3xl w-full h-10 mb-3 border-preto">
 
-                    <BsGoogle className="absolute left-2 my-2 inline"/>
+                        <FcGoogle className="absolute left-3 size-6"/>
+                        
+                        Continuar com o Google
 
-                    Continuar com o Google
+                    </button>
+                    <button className="text-base relative border-2 rounded-3xl w-full h-10 mb-4 border-preto">
 
-                </button>
-                <button className="relative border-2 rounded-3xl w-full h-15 mb-4">
+                        <MdOutlineEmail className="absolute left-3 size-6"/>
 
-                    <MdEmail className="absolute left-2 my-2 inline"/>
+                        Continuar com o e-mail
 
-                    Continuar com o e-mail
-
-                </button>
-                <button className="border-2 rounded-md w-1/2 bg-blue-900 text-white mb-1">
-                    Login
-                </button>
-                <button className="border-2 rounded-md w-1/2 bg-white text-blue-900">
-                    Cadastre-se
-                </button>
-                <p className="text-xs mb-2 w-full">
-                    Ao continuar, você concorda com os Termos de uso e confirma que leu nossa Política de privacidade e cookies.
-                </p>
-                <p className="text-xs w-full">
-                    Este site é protegido por reCAPTCHA e sujeito à Política de privacidade e aos Termos de serviço do Google.
-                </p>
+                    </button>
+                </div>
+                <div className="flex flex-col items-center pt-2 text-base font-bold">
+                    <button className="border-2 rounded-md bg-azul text-cinza mb-1 bottom-2 w-11/12">
+                        Login
+                    </button>
+                    <button className="border-2 rounded-md w-11/12 bg-cinza text-azul">
+                        Cadastre-se
+                    </button>
+                </div>
+                <div className="pt-4 text-center text-xs w-full">
+                    <p className="mb-2">
+                        Ao continuar, você concorda com os Termos de uso e confirma que leu nossa Política de privacidade e cookies.
+                    </p>
+                    <p>
+                        Este site é protegido por reCAPTCHA e sujeito à Política de privacidade e aos Termos de serviço do Google.
+                    </p>
+                </div>
             </div>
         </div>
     )

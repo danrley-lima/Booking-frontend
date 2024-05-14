@@ -1,8 +1,7 @@
-import Image from "next/image";
-import ModalLogin from "./components/ModalLogin"
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
-    <ModalLogin/>
+   <Footer/>
   );
 }

@@ -24,5 +24,8 @@ const config: Config = {
     },
   },
   plugins: [],
+  fontSize: {
+    'text-xs': '0.625px',
+  }
 };
 export default config;

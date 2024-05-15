@@ -5,8 +5,8 @@ import Image from "next/image";
 function ModalCadastro(){
     return(
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-md text-preto bg-white">
-            <div className="bg-cinza p-8 rounded-md shadow-md relative h-5/6 w-4/5 sm:w-1/2">
-                <div className="block">
+            <div className="flex flex-col justify-between bg-cinza p-8 rounded-lg shadow-md h-3/4 w-screen sm:w-4/5 md:w-2/3 lg:w-2/4 xl:w-1/3">
+                <div className="relative">
                     <IoMdArrowBack className="absolute left-3 pt-1"/>
                     <IoClose className="absolute right-3 pt-1"/>
                     <Image
@@ -14,10 +14,10 @@ function ModalCadastro(){
                         alt="Logo"
                         width={58}
                         height={58}
-                        className="absolute left-6 pt-4 h-10"
+                        className="absolute left-6 pt-4 h-16"
                     />
                 </div>
-                <p className="text-xs pt-10 sm:text-sm md:text-base lg:text-2xl">
+                <p className="text-center font-bold mt-16 text-xl sm:text-2xl">
                     Crie sua conta no Booking da Shopee.
                 </p>
                 <form action="#" method="post">

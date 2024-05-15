@@ -22,7 +22,7 @@ function ModalCadastro(){
                 </p>
                 <form action="#" method="post">
                     <div className="flex flex-row">
-                        <div className="w-1/2">
+                        <div className="w-1/2 mr-3">
                             <label className="text-xs sm:text-sm" htmlFor="fname">Nome</label>
                             <input className="w-full border-2 rounded-md border-gray-500" type="text" id="fname" name="fname" required />
                         </div>
@@ -36,7 +36,7 @@ function ModalCadastro(){
                         <input className="w-full border-2 rounded-md border-gray-500" type="email" id="email" name="email" required />
                     </div>
                     <div className="flex flex-col md:flex-row">
-                        <div className="w-full md:w-1/2">
+                        <div className="w-full md:w-1/2 md:mr-3">
                             <label className="text-xs sm:text-sm" htmlFor="password">Senha</label>
                             <input className="w-full pl-1 border-2 rounded-md border-gray-500" type="password" id="password" name="password" required />
                             
@@ -52,11 +52,11 @@ function ModalCadastro(){
                             Sim, quero saber das ofertas e dos novos recursos.
                         </p>
                     </div>
-                    <div className="flex justify-center">
-                        <input className="w-3/5 h-10 my-1 md:my-8 bg-azul text-cinza hover:cursor-pointer rounded-lg" type="submit" value="Criar conta" />
+                    <div className="flex justify-center mt-3 md:mt-8">
+                        <input className="w-3/5 h-10 bg-azul text-cinza hover:cursor-pointer rounded-lg" type="submit" value="Criar conta" />
                     </div>
                 </form>
-                <div className="text-center text-xs">
+                <div className="text-center text-xs mt-3">
                     <p>
                         Ao continuar, você concorda com os Termos de uso e confirma que leu nossa Política de privacidade e cookies.
                     </p>

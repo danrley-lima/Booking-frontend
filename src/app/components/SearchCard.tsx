@@ -15,13 +15,13 @@ interface SearchCardProps {
 
 function SearchCard(props: SearchCardProps) {
   return (
-    <div className="rounded-lg px-3 py-2 text-preto">
+    <div className="w-screen-4/5 rounded-lg px-3 py-2 text-preto md:max-w-md">
       <div className="flex justify-center overflow-hidden rounded-lg">
         <Image
           src={props.image}
-          layout="responsive"
+          // layout="responsive"
           objectFit="cover"
-          width={350}
+          width={500}
           height={200}
           alt={""}
         />

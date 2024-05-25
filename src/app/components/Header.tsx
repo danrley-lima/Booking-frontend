@@ -30,7 +30,7 @@ function Header() {
           </h1>
         </div>
         <button className="focus:outline-none lg:hidden" onClick={toggleMenu}>
-          <CiMenuBurger className="h-6 w-6" />
+          <CiMenuBurger className="h-7 w-7" />
         </button>
         <nav
           className={`absolute bg-azul pb-4 lg:relative lg:flex lg:items-center lg:bg-transparent lg:pb-0 ${menuOpen ? "left-0 top-20 block w-full" : "hidden"}`}

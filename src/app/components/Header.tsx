@@ -6,6 +6,7 @@ import Image from "next/image";
 import { CiMenuBurger } from "react-icons/ci";
 
 import { useState } from "react";
+import SearchBar from "./SearchBar";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -35,7 +36,7 @@ function Header() {
         <nav
           className={`absolute bg-azul pb-4 lg:relative lg:flex lg:items-center lg:bg-transparent lg:pb-0 ${menuOpen ? "left-0 top-20 block w-full" : "hidden"}`}
         >
-          <ul className="flex flex-col items-center space-y-4 text-xl font-medium lg:flex-row lg:space-x-12 lg:space-y-0">
+          <ul className="flex flex-col items-center space-y-4 text-xl font-medium lg:flex-row lg:space-x-10 lg:space-y-0">
             <li>
               <Link href={""} className="">
                 Voos
@@ -62,9 +63,13 @@ function Header() {
           </ul>
         </nav>
       </div>
-      <p className="py-8 text-center text-xl font-bold lg:py-12  lg:text-3xl">
+      <p className="py-6 text-center text-xl font-bold lg:py-10  lg:text-3xl">
         Onde você quer ir?
       </p>
+
+      <div className="px-22 mx-auto">
+        <SearchBar />
+      </div>
     </header>
   );
 }

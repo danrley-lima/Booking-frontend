@@ -44,7 +44,7 @@ function PendingOrderCard(props: PendingoOrderCardProps) {
       </div>
       <div className="flex justify-center gap-2 font-extrabold">
         <button
-          className="hover:bg-verde-claro rounded-full bg-verde px-12 py-1 text-white transition-colors"
+          className="hover:bg-verde-hover rounded-full bg-verde px-12 py-1 text-white transition-colors"
           onClick={() => onApprove(order.id)}
         >
           Aceitar

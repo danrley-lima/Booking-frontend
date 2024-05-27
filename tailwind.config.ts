@@ -15,10 +15,11 @@ const config: Config = {
       },
       colors: {
         azul: "#003366",
+        "azul-hover": "#0055a5",
         azulClaro: "#66CCFF",
         cinza: "#F5F5F5",
         verde: "#00776B",
-        "verde-claro": "#009586",
+        "verde-hover": "#009586",
         laranja: "#FFA500",
         preto: "#333333",
       },

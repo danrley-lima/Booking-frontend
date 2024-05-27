@@ -20,7 +20,7 @@ function SearchCard(props: SearchCardProps) {
         <Image
           src={props.image}
           // layout="responsive"
-          objectFit="cover"
+          // objectFit="cover"
           width={500}
           height={200}
           alt={""}

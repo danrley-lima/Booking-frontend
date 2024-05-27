@@ -18,6 +18,7 @@ const config: Config = {
         azulClaro: "#66CCFF",
         cinza: "#F5F5F5",
         verde: "#00776B",
+        "verde-claro": "#009586",
         laranja: "#FFA500",
         preto: "#333333",
       },
@@ -25,7 +26,7 @@ const config: Config = {
   },
   plugins: [],
   fontSize: {
-    'text-xs': '0.625px',
-  }
+    "text-xs": "0.625px",
+  },
 };
 export default config;

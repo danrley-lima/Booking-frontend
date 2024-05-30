@@ -2,7 +2,7 @@ import { FaFacebook, FaInstagram, FaTiktok, FaTwitter } from "react-icons/fa";
 
 function Footer() {
   return (
-    <footer className="h-45 bottom-0 left-0 flex w-full bg-azul px-4 text-cinza sm:px-8 md:px-12 lg:px-16">
+    <footer className="fixed bottom-0 left-0 flex w-full bg-azul px-4 text-cinza sm:px-8 md:px-12 lg:px-16">
       <section className="py-4 text-left text-sm sm:px-10 md:px-12 lg:w-1/3 lg:py-12">
         <h2 className="font-bold">Empresa</h2>
         <ul role="list" className="mt-3 space-y-1">

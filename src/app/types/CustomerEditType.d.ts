@@ -1,13 +1,13 @@
 import GenderEnum from "./GenderEnum";
 
-type CustomerEdit = {
+type CustomerEditType = {
   name: string;
   lastName: string;
   cpf: string;
   phoneNumber: string;
   email: string;
-  gender: GenderEnum;
-  birthDate: Date;
+  gender: GenderEnum | "";
+  birthDate: string | Date;
   country: string;
   password: string;
 };

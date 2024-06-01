@@ -15,7 +15,7 @@ function SmallHeader() {
   };
 
   return (
-    <div className="fixed left-0 top-0 flex h-[9%] w-full items-center justify-between bg-azul px-4 text-cinza md:px-10 lg:px-20">
+    <div className="flex h-16 w-full items-center justify-between bg-azul px-4 py-2 text-cinza md:px-10 lg:h-[9%] lg:px-20">
       <div className="flex items-center gap-3">
         <Image
           src="/logo.svg"

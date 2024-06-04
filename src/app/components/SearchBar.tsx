@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { CiCalendar } from "react-icons/ci";
+import { useRouter } from "next/navigation";
+
 import { FaLocationDot } from "react-icons/fa6";
 import { CategoryName } from "../types/CategoryName";
-import { PiAirplaneTakeoffLight } from "react-icons/pi";
-
-// interface Category {
-//   name: string;
-// }
+import SearchBarField from "./searchBarComponents/SearchBarField";
 
 const categories: CategoryName[] = [
   "Passagens",
@@ -16,53 +14,76 @@ const categories: CategoryName[] = [
   "Pacotes",
 ];
 
-function Field({ name }: { name: string }) {
-  return (
-    <>
-      (
-      <div className="p-2">
-        <label className="block text-sm font-medium text-gray-700">
-          {name}
-        </label>
-        <input
-          type="text"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-        />
-      </div>
-      );
-    </>
-  );
-}
+type CategoryFields = {
+  [key in CategoryName]: () => JSX.Element;
+};
 
-const categoryFields = {
+const categoryFields: CategoryFields = {
   Passagens: () => (
     <>
-      <Field name="De:" />
-      <Field name="Para:" />
-      <Field name="Data:" />
-      <Field name="Pesquisar" />
+      <SearchBarField
+        name="De:"
+        className="flex-grow"
+        icon={<FaLocationDot size={20} />}
+      />
+      <SearchBarField
+        name="Para:"
+        className="flex-grow"
+        icon={<FaLocationDot size={20} />}
+      />
+      <SearchBarField
+        name="Data:"
+        className="flex-grow"
+        type="date"
+        icon={<CiCalendar size={24} />}
+      />
     </>
   ),
   Hospedagens: () => (
     <>
-      <Field name="Vai pra onde?" />
-      <Field name="Data de entrada:" />
-      <Field name="Data de saída:" />
-      <Field name="// hospedes" />
+      <SearchBarField name="Vai pra onde?" className="flex-grow" />
+      <SearchBarField name="Data de entrada:" className="flex-grow" />
+      <SearchBarField name="Data de saída:" className="flex-grow" />
+      <SearchBarField name="Número de hóspedes:" className="flex-grow" />
     </>
   ),
-  // Adicione mais categorias conforme necessário
+  Restaurantes: () => (
+    <>
+      <SearchBarField name="Localização:" className="flex-grow" />
+      <SearchBarField name="Data da reserva:" className="flex-grow" />
+      <SearchBarField name="Número de pessoas:" className="flex-grow" />
+    </>
+  ),
+  Viagens: () => (
+    <>
+      <SearchBarField name="Destino:" className="flex-grow" />
+      <SearchBarField name="Data de partida:" className="flex-grow" />
+      <SearchBarField name="Data de retorno:" className="flex-grow" />
+    </>
+  ),
+  Pacotes: () => (
+    <>
+      <SearchBarField name="Destino:" className="flex-grow" />
+      <SearchBarField name="Data de partida:" className="flex-grow" />
+      <SearchBarField name="Data de retorno:" className="flex-grow" />
+      <SearchBarField name="Número de pessoas:" className="flex-grow" />
+    </>
+  ),
 };
 
 function SearchBar() {
+  const router = useRouter();
+
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryName>("Passagens");
 
   function handleCategoryClick(category: CategoryName) {
     setSelectedCategory(category);
-    console.log(selectedCategory);
   }
-  const teste = ["De:", "Para:", "Data:", "Pesquisar"];
+
+  function handleSubmit() {
+    router.push("/busca");
+  }
 
   return (
     <div className="mx-auto">
@@ -81,23 +102,15 @@ function SearchBar() {
           </button>
         ))}
       </div>
-      <p className="flex items-center gap-3">
-        icons {<CiCalendar />} e {<FaLocationDot />} e
-        {<PiAirplaneTakeoffLight />}
-      </p>
-      <div className="mt-1 flex overflow-hidden rounded-bl-full rounded-br-full border-gray-300 bg-cinza text-preto drop-shadow-md">
-        {teste.map((palavra, index) => (
-          <div
-            key={palavra}
-            className={`py-3 text-center ${index === teste.length - 1 ? "bg-verde px-6 text-white" : "flex-grow border border-gray-300 "}`}
-          >
-            {palavra}
-          </div>
-        ))}
+      <div className="mt-1 flex flex-row overflow-hidden rounded-bl-full rounded-br-full border-gray-300 bg-cinza pl-4 text-preto drop-shadow-md">
+        {selectedCategory && categoryFields[selectedCategory]?.()}
+        <button
+          onClick={handleSubmit}
+          className="w-32 bg-verde py-3 text-white transition-colors hover:bg-verde-hover "
+        >
+          <p className="relative -left-1">Pesquisar</p>
+        </button>
       </div>
-      {/* <div className="mt-1 flex overflow-hidden rounded-bl-full rounded-br-full border-gray-300 bg-cinza">
-        {selectedCategory && categoryFields[selectedCategory.name]?.()}
-      </div> */}
     </div>
   );
 }

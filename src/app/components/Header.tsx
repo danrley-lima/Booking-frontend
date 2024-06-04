@@ -36,7 +36,7 @@ function Header() {
         <nav
           className={`absolute bg-azul pb-4 lg:relative lg:flex lg:items-center lg:bg-transparent lg:pb-0 ${menuOpen ? "left-0 top-20 block w-full" : "hidden"}`}
         >
-          <ul className="flex flex-col items-center space-y-4 text-xl font-medium lg:flex-row lg:space-x-10 lg:space-y-0">
+          <ul className="flex flex-col items-center space-y-4 text-xl font-medium lg:flex-row lg:space-x-11 lg:space-y-0">
             <li>
               <Link href={""} className="">
                 Voos

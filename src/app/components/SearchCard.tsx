@@ -15,16 +15,9 @@ interface SearchCardProps {
 
 function SearchCard(props: SearchCardProps) {
   return (
-    <div className="w-screen-4/5 rounded-lg px-3 py-2 text-preto md:max-w-md">
+    <div className="w-screen-4/5 transform cursor-pointer rounded-lg px-3 py-2 text-preto shadow-md transition-all duration-200 ease-in-out hover:scale-[1.02] hover:bg-gray-100 hover:shadow-xl md:max-w-md">
       <div className="flex justify-center overflow-hidden rounded-lg">
-        <Image
-          src={props.image}
-          // layout="responsive"
-          // objectFit="cover"
-          width={500}
-          height={200}
-          alt={""}
-        />
+        <Image src={props.image} width={800} height={10} alt="" priority />
       </div>
       <div className="mt-1">
         <div className="flex items-center gap-1 text-xs">

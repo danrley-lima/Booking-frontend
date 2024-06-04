@@ -1,3 +1,4 @@
+import Header from "../components/Header";
 import SmallFooter from "../components/SmallFooter";
 import SmallHeader from "../components/SmallHeader";
 
@@ -8,7 +9,7 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <SmallHeader />
+      <Header />
       <div className={`bg-cinza`}>{children}</div>
       <SmallFooter />
     </>

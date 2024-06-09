@@ -1,12 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { MouseEventHandler, useState } from "react";
 import { IoMdArrowBack } from "react-icons/io";
 import { MdOutlineEmail } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
 import { IoClose } from "react-icons/io5";
 import Image from "next/image";
 
-function ModalLogin(){
+interface ModalLoginProps {
+    closeModal: () => void,
+    openRegister: () => void
+}
+
+function ModalLogin({ closeModal, openRegister }: ModalLoginProps){
 
     const [login, setLogin] = useState(false)
 
@@ -14,8 +19,14 @@ function ModalLogin(){
         setLogin(!login)
     }
 
+    const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (e.target === e.currentTarget) {
+          closeModal();
+        }
+    };
+
     return(
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-md text-preto bg-white">
+        <div onClick={handleBackgroundClick} className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-md text-preto bg-white">
             <div className="flex flex-col justify-between bg-cinza p-8 rounded-lg shadow-md h-2/3 w-screen sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4">
                 <div className="relative">
                     {login ?
@@ -87,7 +98,7 @@ function ModalLogin(){
                                 </div>
                             </form>
                             <p className="pt-2 text-center">
-                                Ainda não tem uma conta? <a className="underline text-blue-600" href="#cadastro">Crie uma conta</a>
+                                Ainda não tem uma conta? <button className="underline text-blue-600" onClick={openRegister}>Crie uma conta</button>
                             </p>
                         </div>
                     )

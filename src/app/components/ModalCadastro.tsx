@@ -1,10 +1,48 @@
 import { IoClose } from "react-icons/io5";
 import { IoMdArrowBack } from "react-icons/io";
 import Image from "next/image";
+import { useEffect } from "react";
+import axiosInstance from "../axiosConfig";
+import { User } from "../utils/User";
 
-function ModalCadastro(){
+interface ModalCadastroProps {
+    closeModal: () => void
+}
+
+function ModalCadastro({ closeModal }: ModalCadastroProps){
+
+    async function handleRegister(e: React.FormEvent<HTMLFormElement>){
+        e.preventDefault()
+        const formData = new FormData(e.currentTarget)
+        const dto: User = {
+            name: '',
+            lastName: '',
+            password: '',
+            email: '',
+            telephone: '',
+            cpf: '',
+            gender: '',
+            birthDate: '',
+            nationality: ''
+          };
+        formData.forEach((value, key) => {
+            if (key in dto) {
+              // Type assertion is needed because FormData entries are strings
+              (dto as any)[key] = value;
+            }
+          });
+        const response = await axiosInstance.post("/customer", dto)
+        console.log(dto)
+    }
+
+    const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (e.target === e.currentTarget) {
+          closeModal();
+        }
+    };
+
     return(
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-md text-preto bg-white">
+        <div onClick={handleBackgroundClick} className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-md text-preto bg-white">
             <div className="flex flex-col justify-between bg-cinza p-8 rounded-lg shadow-md h-3/4 w-screen sm:w-4/5 md:w-2/3 lg:w-2/4 xl:w-1/3">
                 <div className="relative">
                     <IoMdArrowBack className="absolute left-3 pt-1"/>
@@ -20,15 +58,15 @@ function ModalCadastro(){
                 <p className="text-center font-bold mt-16 text-xl sm:text-2xl">
                     Crie sua conta no Booking da Shopee.
                 </p>
-                <form action="#" method="post">
+                <form onSubmit={handleRegister} action="#" method="post">
                     <div className="flex flex-row">
                         <div className="w-1/2 mr-3">
-                            <label className="text-xs sm:text-sm" htmlFor="fname">Nome</label>
-                            <input className="w-full border-2 rounded-md border-gray-500" type="text" id="fname" name="fname" required />
+                            <label className="text-xs sm:text-sm" htmlFor="name">Nome</label>
+                            <input className="w-full border-2 rounded-md border-gray-500" type="text" id="name" name="name" required />
                         </div>
                         <div className="w-1/2">
-                            <label className="text-xs sm:text-sm" htmlFor="lname">Sobrenome</label>
-                            <input className="w-full border-2 rounded-md border-gray-500" type="text" id="lname" name="lname" required />
+                            <label className="text-xs sm:text-sm" htmlFor="lastName">Sobrenome</label>
+                            <input className="w-full border-2 rounded-md border-gray-500" type="text" id="lastName" name="lastName" required />
                         </div>
                     </div>
                     <div>

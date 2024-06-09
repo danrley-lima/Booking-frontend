@@ -1,11 +1,36 @@
+"use client";
+import { useState } from "react";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import SearchCard from "./components/SearchCard";
+import ModalLogin from "./components/ModalLogin";
+import ModalCadastro from "./components/ModalCadastro";
 
 export default function Home() {
+  const [openLogin, setOpenLogin] = useState(false);
+  const [openRegister, setOpenRegister] = useState(false);
+
+  function openModalLogin(){
+    setOpenLogin(!openLogin)
+  }
+
+  function openModalRegister(){
+    setOpenRegister(!openRegister)
+  }
+
   return (
     <>
-      <Header />
+    {
+      openLogin ?
+      <ModalLogin closeModal={openModalLogin} openRegister={openModalRegister}/> :
+      <></>
+      }
+    {
+      openRegister ?
+      <ModalCadastro closeModal={openModalRegister}/> :
+      <></>
+    }
+      <Header openModalLogin={openModalLogin}/>
       <div className="container mx-auto mt-24 py-4">
         <div className="flex items-center justify-center">
           <div className="h-60 w-full rounded-xl bg-rose-300"></div>

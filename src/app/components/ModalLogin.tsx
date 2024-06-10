@@ -1,10 +1,11 @@
 "use client";
-import React, { MouseEventHandler, useState } from "react";
+import React, { MouseEventHandler, useContext, useState } from "react";
 import { IoMdArrowBack } from "react-icons/io";
 import { MdOutlineEmail } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
 import { IoClose } from "react-icons/io5";
 import Image from "next/image";
+import { AuthContext } from "../context/auth";
 
 interface ModalLoginProps {
     closeModal: () => void,
@@ -14,6 +15,25 @@ interface ModalLoginProps {
 function ModalLogin({ closeModal, openRegister }: ModalLoginProps){
 
     const [login, setLogin] = useState(false)
+    const authContext = useContext(AuthContext)
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+    
+        const formDataRaw = new FormData(e.currentTarget);
+    
+        // Ensure the formData object has the correct types
+        const formData: { [name: string]: string | null } = {
+          email: formDataRaw.get("email") as string | null,
+          password: formDataRaw.get("password") as string | null,
+        };
+    
+        // Check if email and password are not null
+        await authContext?.signIn({
+            "email": formDataRaw.get("email") as string | null,
+            "password": formDataRaw.get("password") as string | null,
+        });
+      };
 
     function handleLoginButton(){
         setLogin(!login)
@@ -75,7 +95,7 @@ function ModalLogin({ closeModal, openRegister }: ModalLoginProps){
                     ) :
                     (
                         <div className="pt-12">
-                            <form action="#" method="post">
+                            <form onSubmit={handleSubmit} action="#" method="post">
                                 <div>
                                     <label className="text-xs sm:text-sm" htmlFor="email">Email</label>
                                     <input className="w-full border-2 rounded-md border-gray-500" type="email" id="email" name="email" required />

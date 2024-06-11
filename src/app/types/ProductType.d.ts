@@ -3,6 +3,7 @@ import CategoryEnum from "./CategoryEnum";
 type ProductType = {
   name: string;
   price: string;
+  totalPrice: string;
   category: CategoryEnum | "";
   mainPhoto: string;
   city: string;

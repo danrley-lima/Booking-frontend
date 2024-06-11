@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 import { ProductType } from "../app/types/ProductType";
 import Input from "../app/components/Input";
@@ -8,12 +8,14 @@ import { LuBellRing } from "react-icons/lu";
 import { RiCalendarTodoFill } from "react-icons/ri";
 import { FaRegHeart } from "react-icons/fa";
 import { CiDiscount1 } from "react-icons/ci";
+import axiosInstance from "./axiosConfig";
 // import CategoryEnum from "../app/types/CategoryEnum"
 
 // Dados iniciais que futuramente serão preenchidos ao fazer uma req no banco
 const defaultFormData: ProductType = {
     name: "",
     price: "",
+    totalPrice: "",
     category: "",
     mainPhoto: "",
     city: "",
@@ -43,10 +45,74 @@ function ProductRegister() {
     }));
   }
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
-    // Importante para não redirecionar o usuário, que é o comportamento padrão do html nesse caso
+  // const updateProduct = async (updatedProduct: ProductType) => {
+  //   try {
+  //       const response = await axiosInstance.put(`/api/user/${updatedProduct.id}`, updatedProduct);
+  //       setFormData(response.data);
+  //   } catch (error) {
+  //       console.error('Error updating product data:', error);
+  //   }
+  // };
+
+// async function postProduct(e: FormEvent<HTMLFormElement>){
+//   e.preventDefault()
+//   const formData = new FormData(e.currentTarget)
+//   const dto: ProductType = {
+//     name: "",
+//     price: "",
+//     category: "",
+//     mainPhoto: "",
+//     city: "",
+//     state: "",
+//     phoneNumber: "",
+//     startDate: new Date(Date.now()),
+//     endDate: new Date(Date.now()),
+//     avaliable: 0,
+//     email: "",
+//     quantity: 0,
+//     description: "",
+//     coupon: ""
+//   }
+//   formData.forEach((value, key) => {
+//     if (key in dto) {
+//       // Type assertion is needed because FormData entries are strings
+//       (dto as any)[key] = value;
+//     }
+//   });
+//   const response = await axiosInstance.post("/product", dto)
+//   console.log(response)
+// }
+
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(formData);
+    const formData = new FormData(e.currentTarget)
+    console.log(Array.from(formData.entries()))
+    const dto: ProductType = {
+      name: "",
+      price: "",
+      totalPrice: "",
+      category: "",
+      mainPhoto: "",
+      city: "",
+      state: "",
+      phoneNumber: "",
+      startDate: new Date(Date.now()),
+      endDate: new Date(Date.now()),
+      avaliable: 0,
+      email: "",
+      quantity: 0,
+      description: "",
+      coupon: ""
+    }
+    formData.forEach((value, key) => {
+      if (key in dto) {
+        // Type assertion is needed because FormData entries are strings
+        (dto as any)[key] = value;
+      }
+    });
+    console.log(dto)
+    const response = await axiosInstance.post("/products", dto)
+    console.log(response)
   }
 
   return (
@@ -85,6 +151,7 @@ function ProductRegister() {
             <div className="grid grid-cols-1 gap-x-10 gap-y-1 md:grid-cols-2">
               <Input
                 id="name"
+                name="name"
                 label="Nome"
                 type="text"
                 value={formData.name}
@@ -92,13 +159,23 @@ function ProductRegister() {
               />
               <Input
                 id="price"
+                name="price"
                 label="Valor"
                 type="text"
                 value={formData.price}
                 onChange={handleInputChange}
               />
+              <Input
+                id="totalPrice"
+                name="totalPrice"
+                label="Valor total"
+                type="text"
+                value={formData.totalPrice}
+                onChange={handleInputChange}
+              />
                 <Input
                   id="startDate"
+                  name="startDate"
                   label="Data início"
                   type="date"
                   value={formData.startDate.toString()}
@@ -106,6 +183,7 @@ function ProductRegister() {
                 />
                 <Input
                   id="endDate"
+                  name="endDate"
                   label="Data fim"
                   type="date"
                   value={formData.endDate.toString()}
@@ -113,6 +191,7 @@ function ProductRegister() {
                 />
                 <Input
                   id="email"
+                  name="email"
                   label="Email"
                   type="email"
                   value={formData.email}
@@ -120,6 +199,7 @@ function ProductRegister() {
                 />
               <Input
                 id="phoneNumber"
+                name="phoneNumber"
                 label="Telefone"
                 type="masked"
                 mask="(99) 99999-9999"
@@ -128,6 +208,7 @@ function ProductRegister() {
               />
               <Input
                 id="category"
+                name="category"
                 label="Categoria"
                 type="select"
                 value={formData.category}
@@ -136,6 +217,7 @@ function ProductRegister() {
               />
               <Input
                 id="quantity"
+                name="quantity"
                 label="Quantidade"
                 type="number"
                 value={formData.quantity.toString()}
@@ -143,6 +225,7 @@ function ProductRegister() {
               />
               <Input
                 id="mainPhoto"
+                name="mainPhoto"
                 label="Foto"
                 type="text"
                 value={formData.mainPhoto}
@@ -150,6 +233,7 @@ function ProductRegister() {
               />
               <Input
                 id="description"
+                name="description"
                 label="Descrição"
                 type="text-area"
                 value={formData.description}
@@ -157,6 +241,7 @@ function ProductRegister() {
               />
               <Input
                 id="coupon"
+                name="coupon"
                 label="Cupons"
                 type="text"
                 value={formData.coupon}
@@ -167,9 +252,6 @@ function ProductRegister() {
             <button
               type="submit"
               className="rounded-lg bg-verde px-8 py-2 font-semibold text-cinza transition-colors hover:bg-verde-hover"
-              onClick={() => {
-                // handleSubmit(e);
-              }}
             >
               Salvar alterações
             </button>

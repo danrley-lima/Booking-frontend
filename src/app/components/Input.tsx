@@ -3,6 +3,7 @@ import InputMask from "react-input-mask";
 
 type InputProps = {
   id: string;
+  name: string;
   label: string;
   type: "text" | "date" | "select" | "masked" | "email" | "number" | "text-area";
   value: string;
@@ -14,6 +15,7 @@ type InputProps = {
 
 function Input({
   id,
+  name,
   label,
   type,
   value,
@@ -58,6 +60,7 @@ function Input({
         </label>
         <textarea
             id={id}
+            name={name}
             type={type}
             value={value}
             onChange={handleChange}
@@ -75,6 +78,7 @@ function Input({
       {type === "select" ? (
         <select
           id={id}
+          name={name}
           value={value}
           onChange={handleChange}
           className="mt-1 block w-full rounded-md border border-gray-700 py-2 pl-3 pr-10 text-base font-medium focus:outline-none"
@@ -88,6 +92,7 @@ function Input({
       ) : (
         <input
           id={id}
+          name={name}
           type={type}
           value={value}
           onChange={handleChange}

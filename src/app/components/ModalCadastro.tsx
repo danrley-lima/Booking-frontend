@@ -31,8 +31,14 @@ function ModalCadastro({ closeModal }: ModalCadastroProps){
               (dto as any)[key] = value;
             }
           });
-        const response = await axiosInstance.post("/customer", dto)
-        console.log(dto)
+        const response = await axiosInstance.post("http://localhost:8080/auth/register", {
+            "email": dto["email"],
+            "password": dto["password"],
+            "phoneNumber": "84988112591",
+            "name": dto["name"],
+            "role": "CUSTOMER"
+        })
+        console.log(response)
     }
 
     const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

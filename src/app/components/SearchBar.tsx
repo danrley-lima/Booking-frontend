@@ -1,10 +1,12 @@
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CiCalendar } from "react-icons/ci";
-import { useRouter } from "next/navigation";
 
-import { FaLocationDot } from "react-icons/fa6";
+import { FaLocationDot, FaPerson } from "react-icons/fa6";
+import { GiAirplaneDeparture } from "react-icons/gi";
 import { CategoryName } from "../types/CategoryName";
 import SearchBarField from "./searchBarComponents/SearchBarField";
+import { MdTravelExplore } from "react-icons/md";
 
 const categories: CategoryName[] = [
   "Passagens",
@@ -22,29 +24,48 @@ const categoryFields: CategoryFields = {
   Passagens: () => (
     <>
       <SearchBarField
-        name="De:"
-        className="flex-grow"
+        name=""
+        className=""
         icon={<FaLocationDot size={20} />}
+        placeholder="Saindo de onde?"
       />
       <SearchBarField
-        name="Para:"
-        className="flex-grow"
-        icon={<FaLocationDot size={20} />}
+        name=""
+        className=""
+        icon={<GiAirplaneDeparture size={24} />}
+        placeholder="Indo pra onde?"
       />
       <SearchBarField
-        name="Data:"
-        className="flex-grow"
+        name=""
+        className=""
         type="date"
         icon={<CiCalendar size={24} />}
+        placeholder="Quando?"
+      />
+      <SearchBarField
+        name=""
+        className=""
+        type="number"
+        icon={<FaPerson size={20} />}
+        placeholder="Passageiros: "
       />
     </>
   ),
   Hospedagens: () => (
     <>
-      <SearchBarField name="Vai pra onde?" className="flex-grow" />
-      <SearchBarField name="Data de entrada:" className="flex-grow" />
-      <SearchBarField name="Data de saída:" className="flex-grow" />
-      <SearchBarField name="Número de hóspedes:" className="flex-grow" />
+      <SearchBarField
+        name=""
+        placeholder="Vai pra onde?"
+        className="flex-grow"
+        icon={<MdTravelExplore />}
+      />
+      <SearchBarField
+        name=""
+        className=""
+        type="date"
+        icon={<CiCalendar size={24} />}
+        placeholder="Quando?"
+      />
     </>
   ),
   Restaurantes: () => (
@@ -63,14 +84,17 @@ const categoryFields: CategoryFields = {
   ),
   Pacotes: () => (
     <>
-      <SearchBarField name="Destino:" className="flex-grow" />
-      <SearchBarField name="Data de partida:" className="flex-grow" />
-      <SearchBarField name="Data de retorno:" className="flex-grow" />
-      <SearchBarField name="Número de pessoas:" className="flex-grow" />
+      <SearchBarField
+        name=""
+        placeholder="Vai pra onde?"
+        className="flex-grow"
+        icon={<MdTravelExplore size={24} />}
+      />
     </>
   ),
 };
 
+// Limpar os campos ao trocar a categoria quando implementar o hook para backend
 function SearchBar() {
   const router = useRouter();
 
@@ -87,7 +111,7 @@ function SearchBar() {
 
   return (
     <div className="mx-auto">
-      <div className="flex justify-between overflow-hidden">
+      <div className="block justify-between overflow-hidden md:flex">
         {categories.map((category, index) => (
           <button
             key={category}
@@ -95,7 +119,7 @@ function SearchBar() {
               selectedCategory === category
                 ? "bg-slate-200 text-azul shadow-inner shadow-slate-700"
                 : "bg-cinza text-azul"
-            } ${index === 0 ? "rounded-tl-full" : ""} ${index === categories.length - 1 ? "rounded-tr-full" : ""}`}
+            } ${index === 0 ? "rounded-t-full md:rounded-tl-full md:rounded-tr-none" : ""} ${index === categories.length - 1 ? "rounded-b-full md:rounded-b-none md:rounded-tr-full" : ""}`}
             onClick={() => handleCategoryClick(category)}
           >
             {category}
@@ -103,10 +127,12 @@ function SearchBar() {
         ))}
       </div>
       <div className="mt-1 flex flex-row overflow-hidden rounded-bl-full rounded-br-full border-gray-300 bg-cinza pl-4 text-preto drop-shadow-md">
-        {selectedCategory && categoryFields[selectedCategory]?.()}
+        <div className="flex w-full flex-row">
+          {selectedCategory && categoryFields[selectedCategory]?.()}
+        </div>
         <button
           onClick={handleSubmit}
-          className="w-32 bg-verde py-3 text-white transition-colors hover:bg-verde-hover "
+          className="w-36 bg-verde py-3 text-white transition-colors hover:bg-verde-hover "
         >
           <p className="relative -left-1">Pesquisar</p>
         </button>

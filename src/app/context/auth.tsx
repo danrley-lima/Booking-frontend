@@ -1,71 +1,83 @@
 import { createContext, useEffect, useState } from "react";
 import axiosInstance from "../axiosConfig";
 import { User } from "../utils/User";
+import { showToast } from "../utils/ToastHelper";
 
 interface Credentials {
-    email: String,
-    password: String,
+  email: string;
+  password: string;
 }
-    
+
 interface AuthContextProps extends Credentials {
-    signIn: null | ((arg0: Object) => Promise<void>),
-    token: null | String
+  signIn: null | ((arg0: Object) => Promise<void>);
+  token: null | String;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
-    email: '',
-    password: '',
-    signIn: null,
-    token: ''
-})
+  email: "",
+  password: "",
+  signIn: null,
+  token: "",
+});
 
 interface AuthProviderProps {
-    children: React.ReactNode
+  children: React.ReactNode;
 }
 
-export const AuthProvider = ({children}: AuthProviderProps) => {
-    const [user, setUser] = useState<User | null>(null)
+export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const [user, setUser] = useState<User | null>(null);
 
-    useEffect(() => {
-      const loadingStoreData = async () => {
-        const storageUser = localStorage.getItem("@Auth:user")
-        const storageToken = localStorage.getItem("@Auth:token")
+  useEffect(() => {
+    const loadingStoreData = async () => {
+      const storageUser = localStorage.getItem("@Auth:user");
+      const storageToken = localStorage.getItem("@Auth:token");
 
-        if(storageUser && storageToken){
-            const parsedUser: User = JSON.parse(storageUser);
-            setUser(parsedUser);
-        }
+      if (
+        storageUser &&
+        storageToken &&
+        storageUser !== "undefined" &&
+        storageToken !== "undefined"
+      ) {
+        const parsedUser: User = JSON.parse(storageUser);
+        setUser(parsedUser);
       }
-      loadingStoreData()
-    }, [])
-    
+    };
+    loadingStoreData();
+  }, []);
 
-    const [token, setToken] = useState(null)
-    
-    const signIn = async (formDict: Object) => {
-        const response = await axiosInstance.post("http://localhost:8080/auth/login", JSON.stringify(formDict))
-        if(response.data.error){
-            alert(response.data.error)
-        }
-        else{
-            setUser(response.data)
-            axiosInstance.defaults.headers.common[
-                "Authorization"
-            ] = `Bearer ${response.data.token}`
-            localStorage.setItem("@Auth:token", response.data.token)
-            localStorage.setItem("@Auth:user", response.data.user)
-        }
-        console.log(response)
+  const [token, setToken] = useState(null);
+
+  const signIn = async (formDict: Object) => {
+    try {
+      const response = await axiosInstance.post(
+        "http://localhost:8080/auth/login",
+        JSON.stringify(formDict),
+      );
+
+      showToast("success", "Login efetuado com sucesso!");
+      console.log(response.data);
+      setUser(response.data);
+      axiosInstance.defaults.headers.common["Authorization"] =
+        `Bearer ${response.data.token}`;
+      localStorage.setItem("@Auth:token", response.data.token);
+      localStorage.setItem("@Auth:user", response.data.user);
+
+      console.log(response);
+    } catch (error) {
+      showToast("error", "Aconteceu algum problema no login!");
     }
+  };
 
-    return (
-        <AuthContext.Provider value={{
-            email: user?.email,
-            password: user?.password,
-            signIn: signIn,
-            token: token
-        }}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
+  return (
+    <AuthContext.Provider
+      value={{
+        email: user?.email,
+        password: user?.password,
+        signIn: signIn,
+        token: token,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};

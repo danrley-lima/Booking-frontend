@@ -1,11 +1,12 @@
 "use client";
-import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-import "./globals.css";
-import siteConfig from "./siteConfig";
 import { useContext } from "react";
 import { AuthContext, AuthProvider } from "./context/auth";
+import "./globals.css";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ToastProvider from "./components/ToastProvider";
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 // export const metadata: Metadata = {
@@ -18,11 +19,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const context = useContext(AuthContext)
+  const context = useContext(AuthContext);
+
   return (
     <AuthProvider>
       <html lang="pt-br">
-        <body className={`${montserrat.className} bg-cinza`}>{children}</body>
+        <body className={`${montserrat.className} bg-cinza`}>
+          <ToastProvider>{children}</ToastProvider>
+          {children}
+        </body>
       </html>
     </AuthProvider>
   );

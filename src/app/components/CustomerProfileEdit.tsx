@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 
 import { CustomerEditType } from "../types/CustomerEditType";
 import Input from "./Input";
+import { showToast } from "../utils/ToastHelper";
 
 // Dados iniciais que futuramente serão preenchidos ao fazer uma req no banco
 const defaultFormData: CustomerEditType = {
@@ -29,6 +30,7 @@ function CustomerProfileEdit() {
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     // Importante para não redirecionar o usuário, que é o comportamento padrão do html nesse caso
     e.preventDefault();
+    showToast("success", "Dados salvos com sucesso!");
     console.log(formData);
   }
 

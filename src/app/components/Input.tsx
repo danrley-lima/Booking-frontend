@@ -4,8 +4,8 @@ import InputMask from "react-input-mask";
 type InputProps = {
   id: string;
   label: string;
-  type: "text" | "date" | "select" | "masked" | "email";
-  value: string;
+  type: "text" | "date" | "select" | "masked" | "email" | "number";
+  value: string | number;
   onChange: (id: string, value: string) => void;
   options?: string[];
   mask?: string;

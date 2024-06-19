@@ -7,11 +7,12 @@ import { CiMenuBurger } from "react-icons/ci";
 
 import { useState } from "react";
 
-interface HeaderProps {
+type Props = {
   openModalLogin: () => void
-}
+  setPage: (p: string) => void
+};
 
-function Header({openModalLogin}: HeaderProps) {
+function Header({openModalLogin, setPage}: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -51,7 +52,7 @@ function Header({openModalLogin}: HeaderProps) {
               </Link>
             </li>
             <li>
-              <Link href={""} className="">
+              <Link href={""} className="" onClick={() => setPage("anuncio")}>
                 Anuncie{" "}
               </Link>
             </li>

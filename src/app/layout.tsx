@@ -26,7 +26,6 @@ export default function RootLayout({
       <html lang="pt-br">
         <body className={`${montserrat.className} bg-cinza`}>
           <ToastProvider>{children}</ToastProvider>
-          {children}
         </body>
       </html>
     </AuthProvider>

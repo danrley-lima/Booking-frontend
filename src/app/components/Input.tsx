@@ -6,7 +6,7 @@ type InputProps = {
   name: string;
   label: string;
   type: "text" | "date" | "select" | "masked" | "email" | "number" | "text-area";
-  value: string;
+  value: string | number;
   onChange: (id: string, value: string) => void;
   options?: string[];
   mask?: string;

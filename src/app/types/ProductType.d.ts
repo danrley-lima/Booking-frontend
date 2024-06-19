@@ -1,19 +1,19 @@
-export type ProductType = {
-  id: string;
-  title: string;
+import CategoryEnum from "./CategoryEnum";
+
+type ProductType = {
+  name: string;
+  price: string;
+  totalPrice: string;
+  category: CategoryEnum | "";
+  mainPhoto: string;
   city: string;
   state: string;
-  price: number;
-  mainImage: string;
+  phoneNumber: string;
+  startDate: Date;
+  endDate: Date;
+  avaliable: number;
+  email: string;
+  quantity: number;
   description: string;
-  customerScore: number;
-  numberOfReviews: number;
-  startDate: string;
-  endDate: string;
-  discount: number;
-  coupon: string?;
-  totalPrice: number;
-  category: string?;
-  // to do: Remover ou ajustar no banco
-  customer: any?;
+  coupon: string;
 };

@@ -8,10 +8,11 @@ import { CiMenuBurger } from "react-icons/ci";
 import { useState } from "react";
 
 type Props = {
+  openModalLogin: () => void
   setPage: (p: string) => void
 };
 
-function Header({ setPage }: Props) {
+function Header({openModalLogin, setPage}: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -60,7 +61,7 @@ function Header({ setPage }: Props) {
                 Fale conosco
               </Link>
             </li>
-            <button className="rounded-full border border-cinza px-4 py-2 hover:bg-cinza hover:text-azul lg:inline-block">
+            <button onClick={openModalLogin} className="rounded-full border border-cinza px-4 py-2 hover:bg-cinza hover:text-azul lg:inline-block">
               Fazer login
             </button>
           </ul>

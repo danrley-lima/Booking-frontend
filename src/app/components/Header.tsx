@@ -6,6 +6,7 @@ import Image from "next/image";
 import { CiMenuBurger } from "react-icons/ci";
 
 import { useState } from "react";
+import SearchBar from "./SearchBar";
 
 type Props = {
   openModalLogin: () => void
@@ -67,9 +68,13 @@ function Header({openModalLogin, setPage}: Props) {
           </ul>
         </nav>
       </div>
-      <p className="py-8 text-center text-xl font-bold lg:py-12  lg:text-3xl">
+      <p className="py-6 text-center text-xl font-bold lg:py-10  lg:text-3xl">
         Onde você quer ir?
       </p>
+
+      <div className="px-22 mx-auto">
+        <SearchBar />
+      </div>
     </header>
   );
 }

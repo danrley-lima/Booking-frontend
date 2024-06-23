@@ -7,17 +7,17 @@ import { ProductType } from "../types/ProductType";
 function SearchPage() {
   const [results, setResults] = useState<ProductType[]>([]);
 
-  useEffect(() => {
-    axiosInstance
-      .get("/products")
-      .then((response) => {
-        setResults(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error!", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axiosInstance
+  //     .get("/products")
+  //     .then((response) => {
+  //       setResults(response.data);
+  //       console.log(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("There was an error!", error);
+  //     });
+  // }, []);
 
   if (!results) {
     return <p>Loading...</p>;

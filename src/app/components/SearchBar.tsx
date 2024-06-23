@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { CiCalendar } from "react-icons/ci";
 
 import { FaLocationDot, FaPerson } from "react-icons/fa6";
@@ -7,12 +7,13 @@ import { GiAirplaneDeparture } from "react-icons/gi";
 import { CategoryName } from "../types/CategoryName";
 import SearchBarField from "./searchBarComponents/SearchBarField";
 import { MdTravelExplore } from "react-icons/md";
+import { SearchFormType } from "../types/SearchType";
 
 const categories: CategoryName[] = [
   "Passagens",
   "Hospedagens",
   "Restaurantes",
-  "Viagens",
+  "Atividades",
   "Pacotes",
 ];
 
@@ -20,82 +21,169 @@ type CategoryFields = {
   [key in CategoryName]: () => JSX.Element;
 };
 
-const categoryFields: CategoryFields = {
-  Passagens: () => (
-    <>
-      <SearchBarField
-        name=""
-        className=""
-        icon={<FaLocationDot size={20} />}
-        placeholder="Saindo de onde?"
-      />
-      <SearchBarField
-        name=""
-        className=""
-        icon={<GiAirplaneDeparture size={24} />}
-        placeholder="Indo pra onde?"
-      />
-      <SearchBarField
-        name=""
-        className=""
-        type="date"
-        icon={<CiCalendar size={24} />}
-        placeholder="Quando?"
-      />
-      <SearchBarField
-        name=""
-        className=""
-        type="number"
-        icon={<FaPerson size={20} />}
-        placeholder="Passageiros: "
-      />
-    </>
-  ),
-  Hospedagens: () => (
-    <>
-      <SearchBarField
-        name=""
-        placeholder="Vai pra onde?"
-        className="flex-grow"
-        icon={<MdTravelExplore />}
-      />
-      <SearchBarField
-        name=""
-        className=""
-        type="date"
-        icon={<CiCalendar size={24} />}
-        placeholder="Quando?"
-      />
-    </>
-  ),
-  Restaurantes: () => (
-    <>
-      <SearchBarField name="Localização:" className="flex-grow" />
-      <SearchBarField name="Data da reserva:" className="flex-grow" />
-      <SearchBarField name="Número de pessoas:" className="flex-grow" />
-    </>
-  ),
-  Viagens: () => (
-    <>
-      <SearchBarField name="Destino:" className="flex-grow" />
-      <SearchBarField name="Data de partida:" className="flex-grow" />
-      <SearchBarField name="Data de retorno:" className="flex-grow" />
-    </>
-  ),
-  Pacotes: () => (
-    <>
-      <SearchBarField
-        name=""
-        placeholder="Vai pra onde?"
-        className="flex-grow"
-        icon={<MdTravelExplore size={24} />}
-      />
-    </>
-  ),
+const defaultSearchForm: SearchFormType = {
+  saindoDe: "",
+  indoPara: "",
+  data: "",
+  pessoas: 0,
 };
 
 // Limpar os campos ao trocar a categoria quando implementar o hook para backend
 function SearchBar() {
+  const categoryFields: CategoryFields = {
+    Passagens: () => (
+      <>
+        <SearchBarField
+          name="saindoDe"
+          className=""
+          icon={<FaLocationDot size={20} />}
+          placeholder="Saindo de onde?"
+          onChange={handleChange}
+          value={formData.saindoDe}
+        />
+        <SearchBarField
+          name="indoPara"
+          className=""
+          icon={<GiAirplaneDeparture size={24} />}
+          placeholder="Indo pra onde?"
+          onChange={handleChange}
+          value={formData.indoPara}
+        />
+        <SearchBarField
+          name="data"
+          className=""
+          type="date"
+          icon={<CiCalendar size={24} />}
+          placeholder="Quando?"
+          onChange={handleChange}
+          value={formData.data}
+        />
+        <SearchBarField
+          name="pessoas"
+          className=""
+          type="number"
+          icon={<FaPerson size={20} />}
+          placeholder="Passageiros: "
+          onChange={handleChange}
+          value={formData.pessoas}
+        />
+      </>
+    ),
+    Hospedagens: () => (
+      <>
+        <SearchBarField
+          name="indoPara"
+          placeholder="Vai pra onde?"
+          className="flex-grow"
+          icon={<MdTravelExplore size={24} />}
+          onChange={handleChange}
+          value={formData.indoPara}
+        />
+        <SearchBarField
+          name="data"
+          className=""
+          type="date"
+          icon={<CiCalendar size={24} />}
+          placeholder="Quando?"
+          onChange={handleChange}
+          value={formData.data}
+        />
+        <SearchBarField
+          name="pessoas"
+          className=""
+          type="number"
+          icon={<FaPerson size={20} />}
+          placeholder="Pessoas: "
+          onChange={handleChange}
+          value={formData.pessoas}
+        />
+      </>
+    ),
+    Restaurantes: () => (
+      <>
+        <SearchBarField
+          name="indoPara"
+          placeholder="Onde?"
+          className="flex-grow"
+          icon={<MdTravelExplore size={24} />}
+          onChange={handleChange}
+          value={formData.indoPara}
+        />
+        <SearchBarField
+          name="data"
+          className=""
+          type="date"
+          icon={<CiCalendar size={24} />}
+          placeholder="Quando?"
+          onChange={handleChange}
+          value={formData.data}
+        />
+        <SearchBarField
+          name="pessoas"
+          className=""
+          type="number"
+          icon={<FaPerson size={20} />}
+          placeholder="Pessoas: "
+          onChange={handleChange}
+          value={formData.pessoas}
+        />
+      </>
+    ),
+    Atividades: () => (
+      <>
+        <SearchBarField
+          name="indoPara"
+          placeholder="Vai pra onde?"
+          className="flex-grow"
+          icon={<MdTravelExplore size={24} />}
+          onChange={handleChange}
+          value={formData.indoPara}
+        />
+        <SearchBarField
+          name="data"
+          className=""
+          type="date"
+          icon={<CiCalendar size={24} />}
+          placeholder="Quando?"
+          onChange={handleChange}
+          value={formData.data}
+        />
+      </>
+    ),
+    Pacotes: () => (
+      <>
+        <SearchBarField
+          name="indoPara"
+          placeholder="Vai pra onde?"
+          className="flex-grow"
+          icon={<MdTravelExplore size={24} />}
+          onChange={handleChange}
+          value={formData.indoPara}
+        />
+        <SearchBarField
+          name="data"
+          className=""
+          type="date"
+          icon={<CiCalendar size={24} />}
+          placeholder="Quando?"
+          onChange={handleChange}
+          value={formData.data}
+        />
+      </>
+    ),
+  };
+
+  const [formData, setFormData] = useState<SearchFormType>(defaultSearchForm);
+
+  const handleChange = (e: any) => {
+    console.log("mudou");
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   const router = useRouter();
 
   const [selectedCategory, setSelectedCategory] =
@@ -105,8 +193,15 @@ function SearchBar() {
     setSelectedCategory(category);
   }
 
-  function handleSubmit() {
-    router.push("/busca");
+  useEffect(() => {
+    setFormData(defaultSearchForm);
+  }, [selectedCategory]);
+
+  async function handleSubmit(e: FormEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    // router.push("/busca");
+    console.log(formData);
+    console.log("Botão de enviar clickado");
   }
 
   return (

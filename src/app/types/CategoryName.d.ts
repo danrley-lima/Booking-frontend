@@ -2,5 +2,5 @@ export type CategoryName =
   | "Passagens"
   | "Hospedagens"
   | "Restaurantes"
-  | "Viagens"
+  | "Atividades"
   | "Pacotes";

@@ -8,10 +8,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <div className="flex min-h-screen flex-col justify-between">
       <Header />
-      <div className={`bg-cinza`}>{children}</div>
+      <div className="flex-grow bg-cinza">{children}</div>
       <SmallFooter />
-    </>
+    </div>
   );
 }

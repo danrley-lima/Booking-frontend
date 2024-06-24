@@ -4,10 +4,10 @@ import { CiCalendar } from "react-icons/ci";
 
 import { FaLocationDot, FaPerson } from "react-icons/fa6";
 import { GiAirplaneDeparture } from "react-icons/gi";
-import { CategoryName } from "../types/CategoryName";
-import SearchBarField from "./searchBarComponents/SearchBarField";
 import { MdTravelExplore } from "react-icons/md";
+import { CategoryName } from "../types/CategoryName";
 import { SearchFormType } from "../types/SearchType";
+import SearchBarField from "./searchBarComponents/SearchBarField";
 
 const categories: CategoryName[] = [
   "Passagens",

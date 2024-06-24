@@ -1,17 +1,20 @@
 import CategoryEnum from "./CategoryEnum";
 
 type ProductType = {
-  name: string;
+  id: string;
+  title: string;
   price: string;
-  totalPrice: string;
+  totalPrice: number;
   category: CategoryEnum | "";
   mainPhoto: string;
   city: string;
   state: string;
   phoneNumber: string;
   startDate: Date;
+  discount: number;
   endDate: Date;
-  avaliable: number;
+  customerScore: number;
+  numberOfReviews: number;
   email: string;
   quantity: number;
   description: string;

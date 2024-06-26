@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import Input from "./Input";
 import { showToast } from "../utils/ToastHelper";
 import axiosInstance from "../axiosConfig";
@@ -72,6 +72,12 @@ function EstablishmentRegistration() {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (formData.userModel.password !== formData.userModel.confirm_password) {
+        showToast("error", "As senhas não coincidem. Por favor, verifique e tente novamente.");
+        return;
+    }
+    
     const formDataObj: any = {
         ...formData,
         userModel: {
@@ -79,9 +85,13 @@ function EstablishmentRegistration() {
             role: "ESTABLISHMENT", 
         },
     };
-    console.log("meu objdto nates de enviar a req")
-    console.log(formDataObj)
+
     try {
+
+        if(formDataObj.password != formDataObj.confirm_password) {
+            showToast("error", "As senhas não batem");
+        }
+
         const response = await axiosInstance.post(
           "http://localhost:8080/api/establishment/",
           {
@@ -89,13 +99,10 @@ function EstablishmentRegistration() {
           }
         );
   
-        showToast("success", "Usuário cadastrado com sucesso!");
-        console.log(response);
+        showToast("success", "Estabelecimento cadastrado com sucesso!");
       } catch (error) {
-        showToast("error", "Erro ao cadastrar usuário!");
+        showToast("error", "Erro ao cadastrar estabelecimento!");
       }
-
-    console.log(formData);
   }
 
     return(
@@ -103,7 +110,7 @@ function EstablishmentRegistration() {
              <div className="flex flex-col justify-between bg-cinza p-8 rounded-lg shadow-md h-3/4 w-screen">
                 <div className="relative">
                     <p className="text-center font-bold mb-5 text-xl sm:text-2xl">
-                        Crie sua conta no Booking da Shopee.
+                        Cadastre sua empresa no Booking da Shopee.
                     </p>
                     <form onSubmit={onSubmit} method="post">
                         <div className="flex flex-row">
@@ -246,7 +253,7 @@ function EstablishmentRegistration() {
                                     id="password"
                                     name="password"
                                     label="Senha"
-                                    type="text"
+                                    type="password"
                                     value={formData.userModel.password}
                                     onChange={handleInputChange}
                                 />
@@ -256,7 +263,7 @@ function EstablishmentRegistration() {
                                     id="confirm_password"
                                     name="confirm_password"
                                     label="Confirme a senha"
-                                    type="text"
+                                    type="password"
                                     value={formData.userModel.confirm_password}
                                     onChange={handleInputChange}
                                 />

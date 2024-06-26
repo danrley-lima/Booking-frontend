@@ -52,6 +52,10 @@ function EstablishmentRegistration() {
     };
     
   function handleInputChange(id: string, value: string) {
+    if (id === 'phoneNumber' || id === 'cnpj' || id === 'zipCode') {
+        value = value.replace(/[^\d]/g, '');
+    }
+
     setFormData((prevData) => ({
         ...prevData,
         [id]: value,
@@ -64,39 +68,24 @@ function EstablishmentRegistration() {
           [id]: value,
         },
       }));
-    console.log(formData);
   }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
     const formDataObj: any = {
+        ...formData,
         userModel: {
-            name: formData.get('name') as string,
-            email: formData.get('email') as string,
-            phoneNumber: formData.get('phoneNumber') as string,
-            password: formData.get('password') as string,
-            confirm_password: formData.get('confirm_password') as string,
+            ...formData.userModel,
             role: "ESTABLISHMENT", 
         },
-        addressModel: {
-            zipCode: formData.get('zipCode') as string,
-            streetAddress: formData.get('streetAddress') as string,
-            city: formData.get('city') as string,
-            neighborhood: formData.get('neighborhood') as string,
-            state: formData.get('state') as string,
-            number: parseInt(formData.get('number') as string), 
-            complement: formData.get('complement') as string,
-        },
-        description: formData.get('description') as string,
-        cnpj: formData.get('cnpj') as string,
     };
+    console.log("meu objdto nates de enviar a req")
     console.log(formDataObj)
     try {
         const response = await axiosInstance.post(
           "http://localhost:8080/api/establishment/",
           {
-            formDataObj
+            ...formDataObj
           }
         );
   
@@ -239,6 +228,18 @@ function EstablishmentRegistration() {
                             </div>
                         </div>
                         
+                        <div className="flex flex-col md:flex-row">
+                            <div className="w-full">
+                                <Input
+                                    id="description"
+                                    name="description"
+                                    label="Descrição"
+                                    type="text-area"
+                                    value={formData.description}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                        </div>
                         <div className="flex flex-col md:flex-row">
                             <div className="w-full md:w-1/2 md:mr-3">
                                 <Input

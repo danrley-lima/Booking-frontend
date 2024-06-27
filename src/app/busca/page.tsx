@@ -3,28 +3,41 @@ import { useEffect, useState } from "react";
 import SearchCard from "../components/SearchCard";
 import { ProductType } from "../types/ProductType";
 import axiosInstance from "../axiosConfig";
+import { useRouter, useSearchParams } from "next/navigation";
 
 function SearchPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const query = Object.fromEntries(searchParams.entries());
+
   const [results, setResults] = useState<ProductType[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // Mock para testes
   useEffect(() => {
-    axiosInstance
-      .get("/products", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
-        setResults(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error!", error);
-      });
+    if (query) {
+      console.log("Query: ", query);
+      axiosInstance
+        .get("/products", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          // params: {
+          //   search: query, // Supondo que seu backend aceite um parâmetro de pesquisa chamado 'search'
+          // },
+        })
+        .then((response) => {
+          setResults(response.data);
+          setLoading(false); // Carregamento concluído
+        })
+        .catch((error) => {
+          console.error("There was an error!", error);
+          setLoading(false);
+        });
+    }
   }, []);
 
-  if (!results) {
+  if (loading) {
     return <p>Loading...</p>;
   }
 

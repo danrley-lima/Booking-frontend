@@ -1,15 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
-import axiosInstance from "../axiosConfig";
 import SearchCard from "../components/SearchCard";
 import { ProductType } from "../types/ProductType";
+import axiosInstance from "../axiosConfig";
 
 function SearchPage() {
   const [results, setResults] = useState<ProductType[]>([]);
 
+  // Mock para testes
   useEffect(() => {
     axiosInstance
-      .get("/products")
+      .get("/products", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
       .then((response) => {
         setResults(response.data);
         console.log(response.data);
@@ -39,7 +44,7 @@ function SearchPage() {
             image={
               "http://geoparqueserido.com.br/wp-content/uploads/2021/05/DJI_0057-1024x576.jpg"
             }
-            price={result.price}
+            price={Number(result.price)}
             customerScore={result.customerScore}
             numberOfReviews={result.numberOfReviews}
             discount={result.discount}

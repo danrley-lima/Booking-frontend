@@ -6,13 +6,14 @@ import Image from "next/image";
 import { CiMenuBurger } from "react-icons/ci";
 
 import { useState } from "react";
+import SearchBar from "./SearchBar";
 
 type Props = {
-  openModalLogin: () => void
-  setPage: (p: string) => void
+  openModalLogin: () => void;
+  setPage: (p: string) => void;
 };
 
-function Header({openModalLogin, setPage}: Props) {
+function Header({ openModalLogin, setPage }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -66,15 +67,22 @@ function Header({openModalLogin, setPage}: Props) {
                 Fale conosco
               </Link>
             </li>
-            <button onClick={openModalLogin} className="rounded-full border border-cinza px-4 py-2 hover:bg-cinza hover:text-azul lg:inline-block">
+            <button
+              onClick={openModalLogin}
+              className="rounded-full border border-cinza px-4 py-2 hover:bg-cinza hover:text-azul lg:inline-block"
+            >
               Fazer login
             </button>
           </ul>
         </nav>
       </div>
-      <p className="py-8 text-center text-xl font-bold lg:py-12  lg:text-3xl">
+      <p className="py-6 text-center text-xl font-bold lg:py-10  lg:text-3xl">
         Onde você quer ir?
       </p>
+
+      <div className="px-22 mx-auto">
+        <SearchBar />
+      </div>
     </header>
   );
 }

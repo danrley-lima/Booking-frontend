@@ -57,7 +57,7 @@ function Header({openModalLogin, setPage}: Props) {
               </Link>
             </li>
             <li>
-              <Link href={""} className="">
+              <Link href={""} className="" onClick={() => setPage("produtos")}>
                 Produtos{" "}
               </Link>
             </li>

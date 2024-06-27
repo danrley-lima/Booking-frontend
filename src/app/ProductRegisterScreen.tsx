@@ -15,16 +15,13 @@ import axiosInstance from "./axiosConfig";
 const defaultFormData: ProductType = {
     name: "",
     price: "",
-    totalPrice: "",
     category: "",
-    mainPhoto: "",
+    mainImage: "",
     city: "",
     state: "",
-    phoneNumber: "",
     startDate: new Date(Date.now()),
     endDate: new Date(Date.now()),
     avaliable: 0,
-    email: "",
     quantity: 0,
     description: "",
     coupon: ""
@@ -90,16 +87,13 @@ function ProductRegister() {
     const dto: ProductType = {
       name: "",
       price: "",
-      totalPrice: "",
       category: "",
-      mainPhoto: "",
+      mainImage: "",
       city: "",
       state: "",
-      phoneNumber: "",
       startDate: new Date(Date.now()),
       endDate: new Date(Date.now()),
       avaliable: 0,
-      email: "",
       quantity: 0,
       description: "",
       coupon: ""
@@ -110,7 +104,7 @@ function ProductRegister() {
         (dto as any)[key] = value;
       }
     });
-    console.log(dto)
+    console.log("objeto a ser enviado", dto)
     const response = await axiosInstance.post("/products", dto)
     console.log(response)
   }
@@ -165,14 +159,6 @@ function ProductRegister() {
                 value={formData.price}
                 onChange={handleInputChange}
               />
-              <Input
-                id="totalPrice"
-                name="totalPrice"
-                label="Valor total"
-                type="text"
-                value={formData.totalPrice}
-                onChange={handleInputChange}
-              />
                 <Input
                   id="startDate"
                   name="startDate"
@@ -189,23 +175,7 @@ function ProductRegister() {
                   value={formData.endDate.toString()}
                   onChange={handleInputChange}
                 />
-                <Input
-                  id="email"
-                  name="email"
-                  label="Email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                />
-              <Input
-                id="phoneNumber"
-                name="phoneNumber"
-                label="Telefone"
-                type="masked"
-                mask="(99) 99999-9999"
-                value={formData.phoneNumber}
-                onChange={handleInputChange}
-              />
+              
               <Input
                 id="category"
                 name="category"
@@ -224,19 +194,11 @@ function ProductRegister() {
                 onChange={handleInputChange}
               />
               <Input
-                id="mainPhoto"
-                name="mainPhoto"
+                id="mainImage"
+                name="mainImage"
                 label="Foto"
                 type="text"
-                value={formData.mainPhoto}
-                onChange={handleInputChange}
-              />
-              <Input
-                id="description"
-                name="description"
-                label="Descrição"
-                type="text-area"
-                value={formData.description}
+                value={formData.mainImage}
                 onChange={handleInputChange}
               />
               <Input
@@ -245,6 +207,30 @@ function ProductRegister() {
                 label="Cupons"
                 type="text"
                 value={formData.coupon}
+                onChange={handleInputChange}
+              />
+               <Input
+                id="city"
+                name="city"
+                label="Cidade"
+                type="text"
+                value={formData.city}
+                onChange={handleInputChange}
+              />
+               <Input
+                id="state"
+                name="state"
+                label="Estado"
+                type="text"
+                value={formData.state}
+                onChange={handleInputChange}
+              />
+               <Input
+                id="description"
+                name="description"
+                label="Descrição"
+                type="text-area"
+                value={formData.description}
                 onChange={handleInputChange}
               />
             </div>

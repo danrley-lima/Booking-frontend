@@ -9,6 +9,7 @@ import { RiCalendarTodoFill } from "react-icons/ri";
 import { FaRegHeart } from "react-icons/fa";
 import { CiDiscount1 } from "react-icons/ci";
 import axiosInstance from "./axiosConfig";
+import { showToast } from "./utils/ToastHelper";
 // import CategoryEnum from "../app/types/CategoryEnum"
 
 // Dados iniciais que futuramente serão preenchidos ao fazer uma req no banco
@@ -112,9 +113,15 @@ function ProductRegister() {
 
     const idUser = localStorage.getItem("@Auth:id");
 
-    const response = await axiosInstance.post(`/products/${idUser}`, dto)
+    try {
 
-    console.log(response)
+      const response = await axiosInstance.post(`/products/${idUser}`, dto)
+     
+      showToast("success", "Produto cadastrado com sucesso!");
+    } catch (error) {
+      showToast("error", "Erro ao cadastrar produto!");
+    }
+
   }
 
   return (

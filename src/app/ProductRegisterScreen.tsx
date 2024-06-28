@@ -13,7 +13,8 @@ import axiosInstance from "./axiosConfig";
 
 // Dados iniciais que futuramente serão preenchidos ao fazer uma req no banco
 const defaultFormData: ProductType = {
-    name: "",
+    id: "",
+    title: "",
     price: "",
     category: "",
     mainImage: "",
@@ -24,12 +25,13 @@ const defaultFormData: ProductType = {
     avaliable: 0,
     quantity: 0,
     description: "",
+    discount: 0,
     coupon: ""
 };
 
 function ProductRegister() {
   const [formData, setFormData] = useState<ProductType>(defaultFormData);
-  const CategoryEnum = ["Restaurante", "Acomodações", "Tickets", "Atividades", "Pacotes", ""];
+  const CategoryEnum = ["RESTAURANT", "ACCOMMODATION", "TICKETS", "ACTIVITIES", "PACKAGES", ""];
 
   function handleInputChange(id: string, value: string) {
     if (id === 'quantity' && formData.quantity === 0 && Number(value) < 0) {
@@ -85,7 +87,8 @@ function ProductRegister() {
     const formData = new FormData(e.currentTarget)
     console.log(Array.from(formData.entries()))
     const dto: ProductType = {
-      name: "",
+      id: "",
+      title: "",
       price: "",
       category: "",
       mainImage: "",
@@ -96,6 +99,7 @@ function ProductRegister() {
       avaliable: 0,
       quantity: 0,
       description: "",
+      discount: 0,
       coupon: ""
     }
     formData.forEach((value, key) => {
@@ -105,7 +109,11 @@ function ProductRegister() {
       }
     });
     console.log("objeto a ser enviado", dto)
-    const response = await axiosInstance.post("/products", dto)
+
+    const idUser = localStorage.getItem("@Auth:id");
+
+    const response = await axiosInstance.post(`/products/${idUser}`, dto)
+
     console.log(response)
   }
 
@@ -144,11 +152,11 @@ function ProductRegister() {
           <div className="w-full">
             <div className="grid grid-cols-1 gap-x-10 gap-y-1 md:grid-cols-2">
               <Input
-                id="name"
-                name="name"
+                id="title"
+                name="title"
                 label="Nome"
                 type="text"
-                value={formData.name}
+                value={formData.title}
                 onChange={handleInputChange}
               />
               <Input

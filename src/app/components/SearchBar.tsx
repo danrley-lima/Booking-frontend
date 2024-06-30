@@ -25,7 +25,7 @@ const defaultSearchForm: SearchFormType = {
   saindoDe: "",
   indoPara: "",
   data: "",
-  pessoas: 0,
+  pessoas: 1,
 };
 
 // Limpar os campos ao trocar a categoria quando implementar o hook para backend
@@ -174,9 +174,16 @@ function SearchBar() {
   };
 
   const [formData, setFormData] = useState<SearchFormType>(defaultSearchForm);
+  const [selectedCategory, setSelectedCategory] =
+    useState<CategoryName>("Passagens");
+
+  const router = useRouter();
+
+  useEffect(() => {
+    setFormData(defaultSearchForm);
+  }, [selectedCategory]);
 
   const handleChange = (e: any) => {
-    console.log("mudou");
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -184,24 +191,23 @@ function SearchBar() {
     }));
   };
 
-  const router = useRouter();
-
-  const [selectedCategory, setSelectedCategory] =
-    useState<CategoryName>("Passagens");
-
   function handleCategoryClick(category: CategoryName) {
     setSelectedCategory(category);
   }
 
-  useEffect(() => {
-    setFormData(defaultSearchForm);
-  }, [selectedCategory]);
-
   async function handleSubmit(e: FormEvent<HTMLButtonElement>) {
     e.preventDefault();
-    // router.push("/busca");
     console.log(formData);
-    console.log("Botão de enviar clickado");
+
+    // router.push(`/busca?query=${formData.indoPara}`);
+    const queryParams = new URLSearchParams({
+      category: selectedCategory.toString(),
+      ...Object.fromEntries(
+        Object.entries(formData).map(([key, value]) => [key, value.toString()]),
+      ),
+    }).toString();
+
+    router.push(`/busca?${queryParams}`);
   }
 
   return (

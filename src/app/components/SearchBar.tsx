@@ -8,6 +8,7 @@ import { MdTravelExplore } from "react-icons/md";
 import { CategoryName } from "../types/CategoryName";
 import { SearchFormType } from "../types/SearchType";
 import SearchBarField from "./searchBarComponents/SearchBarField";
+import categoryMapping from "../utils/categoryMap";
 
 const categories: CategoryName[] = [
   "Passagens",
@@ -197,15 +198,19 @@ function SearchBar() {
 
   async function handleSubmit(e: FormEvent<HTMLButtonElement>) {
     e.preventDefault();
-    console.log(formData);
+    // console.log("<><><>");
+    // console.log(formData);
 
     // router.push(`/busca?query=${formData.indoPara}`);
-    const queryParams = new URLSearchParams({
-      category: selectedCategory.toString(),
+    let queryParams = new URLSearchParams({
+      category: categoryMapping(selectedCategory),
       ...Object.fromEntries(
         Object.entries(formData).map(([key, value]) => [key, value.toString()]),
       ),
     }).toString();
+
+    queryParams = queryParams.replace("data", "date");
+    console.log(queryParams);
 
     router.push(`/busca?${queryParams}`);
   }

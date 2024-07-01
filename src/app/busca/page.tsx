@@ -1,30 +1,45 @@
 "use client";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import axiosInstance from "../axiosConfig";
 import SearchCard from "../components/SearchCard";
 import { ProductType } from "../types/ProductType";
-import axiosInstance from "../axiosConfig";
-import { useRouter, useSearchParams } from "next/navigation";
+
+interface Params {
+  date?: string;
+  category?: string;
+  [key: string]: any; // Permite outras propriedades dinâmicas
+}
 
 function SearchPage() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const query = Object.fromEntries(searchParams.entries());
 
   const [results, setResults] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Mock para testes
+  // Convertendo os parâmetros de pesquisa em uma string JSON para usar como dependência
+  const queryString = JSON.stringify(query);
+
   useEffect(() => {
+    console.log("Query: ", query);
     if (query) {
-      console.log("Query: ", query);
+      const params: Params = {};
+
+      if (query.date) {
+        params.date = query.date;
+      }
+
+      if (query.category) {
+        params.category = query.category;
+      }
+
       axiosInstance
-        .get("/products", {
+        .get("/products/by-date", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          // params: {
-          //   search: query, // Supondo que seu backend aceite um parâmetro de pesquisa chamado 'search'
-          // },
+          params: params,
         })
         .then((response) => {
           setResults(response.data);
@@ -35,7 +50,7 @@ function SearchPage() {
           setLoading(false);
         });
     }
-  }, []);
+  }, [queryString]);
 
   if (loading) {
     return <p>Loading...</p>;

@@ -32,7 +32,7 @@ const defaultFormData: ProductType = {
 
 function ProductRegister() {
   const [formData, setFormData] = useState<ProductType>(defaultFormData);
-  const CategoryEnum = ["RESTAURANT", "ACCOMMODATION", "TICKETS", "ACTIVITIES", "PACKAGES", ""];
+  const CategoryEnum = ["RESTAURANT", "ACCOMMODATION", "TICKETS", "ACTIVITIES", "PACKAGES"];
 
   function handleInputChange(id: string, value: string) {
     if (id === 'quantity' && formData.quantity === 0 && Number(value) < 0) {

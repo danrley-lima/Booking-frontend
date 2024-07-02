@@ -3,6 +3,7 @@ import { useState } from "react";
 import Input from "./Input";
 import { showToast } from "../utils/ToastHelper";
 import axiosInstance from "../axiosConfig";
+import ContentEstablishment from "./ContentEstablishment";
 
 const defaultFormData: EstablishmentType = {
     userModel: {

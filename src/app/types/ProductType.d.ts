@@ -15,4 +15,7 @@ type ProductType = {
   quantity: number;
   description: string;
   coupon: string;
+  customerScore: number;
+  total: number;
+  numberOfReviews: number;
 };

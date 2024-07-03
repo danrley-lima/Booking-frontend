@@ -7,6 +7,7 @@ import ModalLogin from "./components/ModalLogin";
 import ModalCadastro from "./components/ModalCadastro";
 import Content from "./components/Content";
 import EstablishmentRegistration from "./components/EstablishmentRegistration";
+import ProductRegister from "./ProductRegisterScreen";
 
 export default function Home() {
   const [openLogin, setOpenLogin] = useState(false);
@@ -35,8 +36,10 @@ export default function Home() {
       }
       
       <Header openModalLogin={openModalLogin} setPage={setOpenPage}/>
-      {openPage == "anuncio" ? <EstablishmentRegistration /> : <Content />}
 
+      {openPage === "anuncio" ? <EstablishmentRegistration /> : null}
+      {openPage === "produtos" ? <ProductRegister /> : null}
+      {openPage !== "anuncio" && openPage !== "produtos" && <Content />} 
       <Footer />
     </>
   );

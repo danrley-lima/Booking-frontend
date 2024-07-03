@@ -32,11 +32,10 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
       axiosInstance.defaults.headers.common["Authorization"] =
         `Bearer ${response.data.token}`;
       localStorage.setItem("@Auth:token", response.data.token);
-
+      localStorage.setItem("@Auth:id", response.data.id.toString());
     } catch (error) {
       showToast("error", "Aconteceu algum problema no login!");
     }
-    console.log(localStorage.getItem("@Auth:token"));
   };
 
   return (

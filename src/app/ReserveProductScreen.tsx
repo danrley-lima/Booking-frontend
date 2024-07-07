@@ -3,7 +3,7 @@ import SmallHeader from "./components/SmallHeader";
 import Image from "next/image"
 import { ProductType } from "./types/ProductType";
 import CardReserva from "./components/CardReserva";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import ModalReserva from "./components/ModalReserva";
 import axios from "axios";
 
@@ -18,7 +18,7 @@ export default function ReserveProductScreen({ product }: ReserveProductScreenPr
     }
     function reserveProduct(){
         const body = {
-            costumerId: "userId",
+            costumerId: localStorage.getItem("@Auth:id"),
             productId: product.id,
             startDate: product.startDate,
             endDate: product.endDate,
@@ -38,7 +38,7 @@ export default function ReserveProductScreen({ product }: ReserveProductScreenPr
             <div className="flex flex-col">
                 <div className="overflow-hidden w-screen">
                     <Image 
-                        src={product.mainPhoto}
+                        src={product.mainImage}
                         alt={product.title}
                         // layout="intrinsic"
                         width={1920} // Replace with the actual width of your image

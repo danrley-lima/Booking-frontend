@@ -31,7 +31,7 @@ function ModalReserva({ closeModal, product, reserveProduct }: ModalReservaProps
         <IoClose className="absolute right-3 top-0"/>
       </button>
         <div className="text-azul">
-          <h1 className="text-xl text-center font-bold">{product.name}</h1>
+          <h1 className="text-xl text-center font-bold">{product.title}</h1>
           <h2 className="text-black font-bold my-4">Informações</h2>
           <div className="flex flex-row h-full justify-between">
             <p>

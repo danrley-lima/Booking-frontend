@@ -13,9 +13,10 @@ import axiosInstance from "./axiosConfig";
 
 // Dados iniciais que futuramente serão preenchidos ao fazer uma req no banco
 const defaultFormData: ProductType = {
-    name: "",
+    id: 'sdmjlmsdc',
+    title: "",
     price: "",
-    totalPrice: "",
+    totalPrice: 0,
     category: "",
     mainPhoto: "",
     city: "",
@@ -23,11 +24,13 @@ const defaultFormData: ProductType = {
     phoneNumber: "",
     startDate: new Date(Date.now()),
     endDate: new Date(Date.now()),
-    avaliable: 0,
     email: "",
     quantity: 0,
     description: "",
-    coupon: ""
+    coupon: "",
+    discount: 10,
+    customerScore: 0,
+    numberOfReviews: 0
 };
 
 function ProductRegister() {
@@ -88,9 +91,10 @@ function ProductRegister() {
     const formData = new FormData(e.currentTarget)
     console.log(Array.from(formData.entries()))
     const dto: ProductType = {
-      name: "",
+      id: 'shnsnd',
+      title: "",
       price: "",
-      totalPrice: "",
+      totalPrice: 0,
       category: "",
       mainPhoto: "",
       city: "",
@@ -98,11 +102,13 @@ function ProductRegister() {
       phoneNumber: "",
       startDate: new Date(Date.now()),
       endDate: new Date(Date.now()),
-      avaliable: 0,
       email: "",
       quantity: 0,
       description: "",
-      coupon: ""
+      coupon: "",
+      numberOfReviews: 0,
+      discount: 10,
+      customerScore: 0
     }
     formData.forEach((value, key) => {
       if (key in dto) {
@@ -154,7 +160,7 @@ function ProductRegister() {
                 name="name"
                 label="Nome"
                 type="text"
-                value={formData.name}
+                value={formData.title}
                 onChange={handleInputChange}
               />
               <Input

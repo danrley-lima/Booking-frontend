@@ -1,30 +1,59 @@
 "use client";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import SearchCard from "../components/SearchCard";
 import { ProductType } from "../types/ProductType";
+
+interface Params {
+  date?: string;
+  category?: string;
+  [key: string]: any; // Permite outras propriedades dinâmicas
+}
 import axiosInstance from "../axiosConfig";
 
 function SearchPage() {
+  const searchParams = useSearchParams();
+  const query = Object.fromEntries(searchParams.entries());
+
   const [results, setResults] = useState<ProductType[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Convertendo os parâmetros de pesquisa em uma string JSON para usar como dependência
+  const queryString = JSON.stringify(query);
 
   // Mock para testes
   useEffect(() => {
-    axiosInstance
-      .get("/products", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
-        setResults(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error!", error);
-      });
-  }, []);
+    console.log("Query: ", query);
+    if (query) {
+      const params: Params = {};
 
-  if (!results) {
+      if (query.date) {
+        params.date = query.date;
+      }
+
+      if (query.category) {
+        params.category = query.category;
+      }
+
+      axiosInstance
+        .get("/products/by-date", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          params: params,
+        })
+        .then((response) => {
+          setResults(response.data);
+          setLoading(false); // Carregamento concluído
+        })
+        .catch((error) => {
+          console.error("There was an error!", error);
+          setLoading(false);
+        });
+    }
+  }, [queryString]);
+
+  if (loading) {
     return <p>Loading...</p>;
   }
 

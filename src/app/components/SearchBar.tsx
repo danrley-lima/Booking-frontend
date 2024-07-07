@@ -8,6 +8,7 @@ import { MdTravelExplore } from "react-icons/md";
 import { CategoryName } from "../types/CategoryName";
 import { SearchFormType } from "../types/SearchType";
 import SearchBarField from "./searchBarComponents/SearchBarField";
+import categoryMapping from "../utils/categoryMap";
 
 const categories: CategoryName[] = [
   "Passagens",
@@ -25,7 +26,7 @@ const defaultSearchForm: SearchFormType = {
   saindoDe: "",
   indoPara: "",
   data: "",
-  pessoas: 0,
+  pessoas: 1,
 };
 
 // Limpar os campos ao trocar a categoria quando implementar o hook para backend
@@ -174,9 +175,16 @@ function SearchBar() {
   };
 
   const [formData, setFormData] = useState<SearchFormType>(defaultSearchForm);
+  const [selectedCategory, setSelectedCategory] =
+    useState<CategoryName>("Passagens");
+
+  const router = useRouter();
+
+  useEffect(() => {
+    setFormData(defaultSearchForm);
+  }, [selectedCategory]);
 
   const handleChange = (e: any) => {
-    console.log("mudou");
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -184,24 +192,27 @@ function SearchBar() {
     }));
   };
 
-  const router = useRouter();
-
-  const [selectedCategory, setSelectedCategory] =
-    useState<CategoryName>("Passagens");
-
   function handleCategoryClick(category: CategoryName) {
     setSelectedCategory(category);
   }
 
-  useEffect(() => {
-    setFormData(defaultSearchForm);
-  }, [selectedCategory]);
-
   async function handleSubmit(e: FormEvent<HTMLButtonElement>) {
     e.preventDefault();
-    // router.push("/busca");
-    console.log(formData);
-    console.log("Botão de enviar clickado");
+    // console.log("<><><>");
+    // console.log(formData);
+
+    // router.push(`/busca?query=${formData.indoPara}`);
+    let queryParams = new URLSearchParams({
+      category: categoryMapping(selectedCategory),
+      ...Object.fromEntries(
+        Object.entries(formData).map(([key, value]) => [key, value.toString()]),
+      ),
+    }).toString();
+
+    queryParams = queryParams.replace("data", "date");
+    console.log(queryParams);
+
+    router.push(`/busca?${queryParams}`);
   }
 
   return (

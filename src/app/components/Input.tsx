@@ -5,7 +5,7 @@ type InputProps = {
   id: string;
   name: string;
   label: string;
-  type: "text" | "date" | "select" | "masked" | "email" | "number" | "text-area";
+  type: "text" | "date" | "select" | "masked" | "email" | "number" | "text-area" | "password";
   value: string | number;
   onChange: (id: string, value: string) => void;
   options?: string[];

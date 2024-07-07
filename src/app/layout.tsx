@@ -4,7 +4,6 @@ import { useContext } from "react";
 import { AuthContext, AuthProvider } from "./context/auth";
 import "./globals.css";
 
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ToastProvider from "./components/ToastProvider";
 const montserrat = Montserrat({ subsets: ["latin"] });

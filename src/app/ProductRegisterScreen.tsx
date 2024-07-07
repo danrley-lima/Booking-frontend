@@ -9,6 +9,7 @@ import { RiCalendarTodoFill } from "react-icons/ri";
 import { FaRegHeart } from "react-icons/fa";
 import { CiDiscount1 } from "react-icons/ci";
 import axiosInstance from "./axiosConfig";
+import { showToast } from "./utils/ToastHelper";
 // import CategoryEnum from "../app/types/CategoryEnum"
 
 // Dados iniciais que futuramente serão preenchidos ao fazer uma req no banco
@@ -18,13 +19,12 @@ const defaultFormData: ProductType = {
     price: "",
     totalPrice: 0,
     category: "",
-    mainPhoto: "",
+    mainImage: "",
     city: "",
     state: "",
-    phoneNumber: "",
     startDate: new Date(Date.now()),
     endDate: new Date(Date.now()),
-    email: "",
+    avaliable: 0,
     quantity: 0,
     description: "",
     coupon: "",
@@ -35,7 +35,7 @@ const defaultFormData: ProductType = {
 
 function ProductRegister() {
   const [formData, setFormData] = useState<ProductType>(defaultFormData);
-  const CategoryEnum = ["Restaurante", "Acomodações", "Tickets", "Atividades", "Pacotes", ""];
+  const CategoryEnum = ["RESTAURANT", "ACCOMMODATION", "TICKETS", "ACTIVITIES", "PACKAGES"];
 
   function handleInputChange(id: string, value: string) {
     if (id === 'quantity' && formData.quantity === 0 && Number(value) < 0) {
@@ -96,13 +96,11 @@ function ProductRegister() {
       price: "",
       totalPrice: 0,
       category: "",
-      mainPhoto: "",
+      mainImage: "",
       city: "",
       state: "",
-      phoneNumber: "",
       startDate: new Date(Date.now()),
       endDate: new Date(Date.now()),
-      email: "",
       quantity: 0,
       description: "",
       coupon: "",
@@ -116,9 +114,19 @@ function ProductRegister() {
         (dto as any)[key] = value;
       }
     });
-    console.log(dto)
-    const response = await axiosInstance.post("/products", dto)
-    console.log(response)
+    console.log("objeto a ser enviado", dto)
+
+    const idUser = localStorage.getItem("@Auth:id");
+
+    try {
+
+      const response = await axiosInstance.post(`/products/${idUser}`, dto)
+     
+      showToast("success", "Produto cadastrado com sucesso!");
+    } catch (error) {
+      showToast("error", "Erro ao cadastrar produto!");
+    }
+
   }
 
   return (
@@ -156,8 +164,8 @@ function ProductRegister() {
           <div className="w-full">
             <div className="grid grid-cols-1 gap-x-10 gap-y-1 md:grid-cols-2">
               <Input
-                id="name"
-                name="name"
+                id="title"
+                name="title"
                 label="Nome"
                 type="text"
                 value={formData.title}
@@ -169,14 +177,6 @@ function ProductRegister() {
                 label="Valor"
                 type="text"
                 value={formData.price}
-                onChange={handleInputChange}
-              />
-              <Input
-                id="totalPrice"
-                name="totalPrice"
-                label="Valor total"
-                type="text"
-                value={formData.totalPrice}
                 onChange={handleInputChange}
               />
                 <Input
@@ -195,23 +195,7 @@ function ProductRegister() {
                   value={formData.endDate.toString()}
                   onChange={handleInputChange}
                 />
-                <Input
-                  id="email"
-                  name="email"
-                  label="Email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                />
-              <Input
-                id="phoneNumber"
-                name="phoneNumber"
-                label="Telefone"
-                type="masked"
-                mask="(99) 99999-9999"
-                value={formData.phoneNumber}
-                onChange={handleInputChange}
-              />
+              
               <Input
                 id="category"
                 name="category"
@@ -230,19 +214,11 @@ function ProductRegister() {
                 onChange={handleInputChange}
               />
               <Input
-                id="mainPhoto"
-                name="mainPhoto"
+                id="mainImage"
+                name="mainImage"
                 label="Foto"
                 type="text"
-                value={formData.mainPhoto}
-                onChange={handleInputChange}
-              />
-              <Input
-                id="description"
-                name="description"
-                label="Descrição"
-                type="text-area"
-                value={formData.description}
+                value={formData.mainImage}
                 onChange={handleInputChange}
               />
               <Input
@@ -251,6 +227,30 @@ function ProductRegister() {
                 label="Cupons"
                 type="text"
                 value={formData.coupon}
+                onChange={handleInputChange}
+              />
+               <Input
+                id="city"
+                name="city"
+                label="Cidade"
+                type="text"
+                value={formData.city}
+                onChange={handleInputChange}
+              />
+               <Input
+                id="state"
+                name="state"
+                label="Estado"
+                type="text"
+                value={formData.state}
+                onChange={handleInputChange}
+              />
+               <Input
+                id="description"
+                name="description"
+                label="Descrição"
+                type="text-area"
+                value={formData.description}
                 onChange={handleInputChange}
               />
             </div>

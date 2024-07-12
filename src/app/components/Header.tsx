@@ -10,10 +10,9 @@ import SearchBar from "./SearchBar";
 
 type Props = {
   openModalLogin: () => void;
-  setPage: (p: string) => void;
 };
 
-function Header({ openModalLogin, setPage }: Props) {
+function Header({ openModalLogin }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -23,6 +22,7 @@ function Header({ openModalLogin, setPage }: Props) {
   return (
     <header className="h-64 bg-azul px-4 text-cinza sm:px-8 md:px-12 lg:px-16">
       <div className="container mx-auto flex items-center justify-between pt-4 sm:flex-row">
+        <Link href={"/"} className="">
         <div className="flex items-center space-x-4">
           <Image
             src="/logo.svg"
@@ -35,6 +35,7 @@ function Header({ openModalLogin, setPage }: Props) {
             {siteConfig.siteName}
           </h1>
         </div>
+          </Link>
         <button className="focus:outline-none lg:hidden" onClick={toggleMenu}>
           <CiMenuBurger className="h-7 w-7" />
         </button>
@@ -53,12 +54,12 @@ function Header({ openModalLogin, setPage }: Props) {
               </Link>
             </li>
             <li>
-              <Link href={""} className="" onClick={() => setPage("anuncio")}>
+              <Link href={"/anuncio"} className="">
                 Anuncie{" "}
               </Link>
             </li>
             <li>
-              <Link href={""} className="" onClick={() => setPage("produtos")}>
+              <Link href={"/produtos"} className="">
                 Produtos{" "}
               </Link>
             </li>

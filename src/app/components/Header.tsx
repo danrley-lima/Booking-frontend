@@ -19,6 +19,8 @@ function Header({ openModalLogin }: Props) {
     setMenuOpen(!menuOpen);
   };
 
+  const userRole = localStorage.getItem("@Auth:role");
+  console.log(userRole)
   return (
     <header className="h-64 bg-azul px-4 text-cinza sm:px-8 md:px-12 lg:px-16">
       <div className="container mx-auto flex items-center justify-between pt-4 sm:flex-row">
@@ -58,22 +60,26 @@ function Header({ openModalLogin }: Props) {
                 Anuncie{" "}
               </Link>
             </li>
+            {userRole === 'ESTABLISHMENT' && (
             <li>
               <Link href={"/produtos"} className="">
                 Produtos{" "}
               </Link>
-            </li>
+            </li>)}
             <li>
               <Link href={""} className="">
                 Fale conosco
               </Link>
             </li>
-            <button
+            {userRole === null && (<button
               onClick={openModalLogin}
               className="rounded-full border border-cinza px-4 py-2 hover:bg-cinza hover:text-azul lg:inline-block"
             >
               Fazer login
-            </button>
+            </button>)}
+            {userRole !== null && (<button className="rounded-full border border-cinza px-4 py-2 hover:bg-cinza hover:text-azul lg:inline-block">
+              Logout
+            </button>)}
           </ul>
         </nav>
       </div>

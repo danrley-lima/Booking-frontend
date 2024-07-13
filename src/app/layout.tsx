@@ -10,6 +10,7 @@ import ModalCadastro from "./components/ModalCadastro";
 import ModalLogin from "./components/ModalLogin";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import { usePathname } from "next/navigation";
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 // export const metadata: Metadata = {
@@ -22,16 +23,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathName = usePathname();
+  console.log(pathName)
   const context = useContext(AuthContext);
 
   const [openLogin, setOpenLogin] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
 
-  function openModalLogin(){
+  function openModalLogin() {
     setOpenLogin(!openLogin)
   }
 
-  function openModalRegister(){
+  function openModalRegister() {
     setOpenRegister(!openRegister)
   }
 
@@ -42,21 +45,21 @@ export default function RootLayout({
           <ToastProvider>
             {
               openLogin ?
-              <ModalLogin closeModal={openModalLogin} openRegister={openModalRegister}/> :
-              <></>
+                <ModalLogin closeModal={openModalLogin} openRegister={openModalRegister} /> :
+                <></>
             }
             {
               openRegister ?
-              <ModalCadastro closeModal={openModalRegister}/> :
-              <></>
+                <ModalCadastro closeModal={openModalRegister} /> :
+                <></>
             }
-            
+
             <Header openModalLogin={openModalLogin}/>
 
             {children}
 
             <Footer />
-            
+
           </ToastProvider>
         </body>
       </html>

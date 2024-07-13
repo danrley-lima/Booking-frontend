@@ -60,7 +60,7 @@ function ModalLogin({ closeModal, openRegister }: ModalLoginProps) {
           ) : (
             <></>
           )}
-          <button>
+          <button onClick={closeModal}>
             <IoClose className="absolute right-1 top-1" />
           </button>
           <Image

@@ -34,7 +34,7 @@ function Header({ openModalLogin }: Props) {
   };
 
 
-  const handleLogout = () => {
+  const handleLogout = async() => {
     localStorage.removeItem("@Auth:token");
     localStorage.removeItem("@Auth:id");
     localStorage.removeItem("@Auth:role");

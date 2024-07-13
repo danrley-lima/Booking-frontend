@@ -5,8 +5,11 @@ import siteConfig from "../siteConfig";
 import Image from "next/image";
 import { CiMenuBurger } from "react-icons/ci";
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
+import { AuthContext } from "../context/auth";
+import { useRouter } from "next/navigation";
+import { showToast } from "../utils/ToastHelper";
 
 type Props = {
   openModalLogin: () => void;
@@ -14,13 +17,32 @@ type Props = {
 
 function Header({ openModalLogin }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { token, signIn } = useContext(AuthContext);
+  const [userRole, setUserRole] = useState<string | null>(null); 
+  const router = useRouter();
+
+  useEffect(() => {
+    const role = localStorage.getItem("@Auth:role");
+    if (role) {
+      setUserRole(role);
+    } 
+  }, [token]);
+
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
-  const userRole = localStorage.getItem("@Auth:role");
-  console.log(userRole)
+
+  const handleLogout = () => {
+    localStorage.removeItem("@Auth:token");
+    localStorage.removeItem("@Auth:id");
+    localStorage.removeItem("@Auth:role");
+    setUserRole(null); 
+    router.push("/");
+    showToast("success", "Logout feito com sucesso!");
+  };
+
   return (
     <header className="h-64 bg-azul px-4 text-cinza sm:px-8 md:px-12 lg:px-16">
       <div className="container mx-auto flex items-center justify-between pt-4 sm:flex-row">
@@ -55,12 +77,12 @@ function Header({ openModalLogin }: Props) {
                 Roteiros
               </Link>
             </li>
-            <li>
+            {userRole !== "ESTABLISHMENT" && (<li>
               <Link href={"/anuncio"} className="">
                 Anuncie{" "}
               </Link>
-            </li>
-            {userRole === 'ESTABLISHMENT' && (
+            </li>)}
+            {userRole === "ESTABLISHMENT" && (
             <li>
               <Link href={"/produtos"} className="">
                 Produtos{" "}
@@ -71,13 +93,13 @@ function Header({ openModalLogin }: Props) {
                 Fale conosco
               </Link>
             </li>
-            {userRole === null && (<button
+            {!userRole && (<button
               onClick={openModalLogin}
               className="rounded-full border border-cinza px-4 py-2 hover:bg-cinza hover:text-azul lg:inline-block"
             >
               Fazer login
             </button>)}
-            {userRole !== null && (<button className="rounded-full border border-cinza px-4 py-2 hover:bg-cinza hover:text-azul lg:inline-block">
+            {userRole && (<button onClick={handleLogout} className="rounded-full border border-cinza px-4 py-2 hover:bg-cinza hover:text-azul lg:inline-block">
               Logout
             </button>)}
           </ul>

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Header from "../components/Header";
 import ModalCadastro from "../components/ModalCadastro";
-import ModalLogin from "../components/ModalLogin";
+import ModalLogin from "../login/ModalLogin";
 import SmallFooter from "../components/SmallFooter";
 
 export default function RootLayout({

@@ -5,24 +5,48 @@ import siteConfig from "../siteConfig";
 import Image from "next/image";
 import { CiMenuBurger } from "react-icons/ci";
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
+import { AuthContext } from "../context/auth";
+import { useRouter } from "next/navigation";
+import { showToast } from "../utils/ToastHelper";
 
 type Props = {
   openModalLogin: () => void;
-  setPage: (p: string) => void;
 };
 
-function Header({ openModalLogin, setPage }: Props) {
+function Header({ openModalLogin }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { token, signIn } = useContext(AuthContext);
+  const [userRole, setUserRole] = useState<string | null>(null); 
+  const router = useRouter();
+
+  useEffect(() => {
+    const role = localStorage.getItem("@Auth:role");
+    if (role) {
+      setUserRole(role);
+    } 
+  }, [token]);
+
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
+
+  const handleLogout = async() => {
+    localStorage.removeItem("@Auth:token");
+    localStorage.removeItem("@Auth:id");
+    localStorage.removeItem("@Auth:role");
+    setUserRole(null); 
+    router.push("/");
+    showToast("success", "Logout feito com sucesso!");
+  };
+
   return (
     <header className="h-64 bg-azul px-4 text-cinza sm:px-8 md:px-12 lg:px-16">
       <div className="container mx-auto flex items-center justify-between pt-4 sm:flex-row">
+        <Link href={"/"} className="">
         <div className="flex items-center space-x-4">
           <Image
             src="/logo.svg"
@@ -35,6 +59,7 @@ function Header({ openModalLogin, setPage }: Props) {
             {siteConfig.siteName}
           </h1>
         </div>
+          </Link>
         <button className="focus:outline-none lg:hidden" onClick={toggleMenu}>
           <CiMenuBurger className="h-7 w-7" />
         </button>
@@ -52,27 +77,31 @@ function Header({ openModalLogin, setPage }: Props) {
                 Roteiros
               </Link>
             </li>
-            <li>
-              <Link href={""} className="" onClick={() => setPage("anuncio")}>
+            {userRole !== "ESTABLISHMENT" && (<li>
+              <Link href={"/anuncio"} className="">
                 Anuncie{" "}
               </Link>
-            </li>
+            </li>)}
+            {userRole === "ESTABLISHMENT" && (
             <li>
-              <Link href={""} className="" onClick={() => setPage("produtos")}>
+              <Link href={"/produtos"} className="">
                 Produtos{" "}
               </Link>
-            </li>
+            </li>)}
             <li>
               <Link href={""} className="">
                 Fale conosco
               </Link>
             </li>
-            <button
+            {!userRole && (<button
               onClick={openModalLogin}
               className="rounded-full border border-cinza px-4 py-2 hover:bg-cinza hover:text-azul lg:inline-block"
             >
               Fazer login
-            </button>
+            </button>)}
+            {userRole && (<button onClick={handleLogout} className="rounded-full border border-cinza px-4 py-2 hover:bg-cinza hover:text-azul lg:inline-block">
+              Logout
+            </button>)}
           </ul>
         </nav>
       </div>

@@ -1,11 +1,16 @@
 "use client";
 import { Montserrat } from "next/font/google";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext, AuthProvider } from "./context/auth";
 import "./globals.css";
 
 import "react-toastify/dist/ReactToastify.css";
 import ToastProvider from "./components/ToastProvider";
+import ModalCadastro from "./components/ModalCadastro";
+import ModalLogin from "./components/ModalLogin";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import { usePathname } from "next/navigation";
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 // export const metadata: Metadata = {
@@ -18,13 +23,44 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathName = usePathname();
+  console.log(pathName)
   const context = useContext(AuthContext);
+
+  const [openLogin, setOpenLogin] = useState(false);
+  const [openRegister, setOpenRegister] = useState(false);
+
+  function openModalLogin() {
+    setOpenLogin(!openLogin)
+  }
+
+  function openModalRegister() {
+    setOpenRegister(!openRegister)
+  }
 
   return (
     <AuthProvider>
       <html lang="pt-br">
         <body className={`${montserrat.className} bg-cinza`}>
-          <ToastProvider>{children}</ToastProvider>
+          <ToastProvider>
+            {
+              openLogin ?
+                <ModalLogin closeModal={openModalLogin} openRegister={openModalRegister} /> :
+                <></>
+            }
+            {
+              openRegister ?
+                <ModalCadastro closeModal={openModalRegister} /> :
+                <></>
+            }
+
+            <Header openModalLogin={openModalLogin}/>
+
+            {children}
+
+            <Footer />
+
+          </ToastProvider>
         </body>
       </html>
     </AuthProvider>

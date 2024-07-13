@@ -33,6 +33,7 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
         `Bearer ${response.data.token}`;
       localStorage.setItem("@Auth:token", response.data.token);
       localStorage.setItem("@Auth:id", response.data.id.toString());
+      localStorage.setItem("@Auth:role", response.data.role.toString());
     } catch (error) {
       showToast("error", "Aconteceu algum problema no login!");
     }
